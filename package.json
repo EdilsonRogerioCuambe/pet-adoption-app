@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "build": "tsup src --out-dir build",
-    "start": "node build/server.js"
+    "start": "node build/server.js",
+    "lint": "eslint --ext .ts src/ --fix"
   },
   "repository": {
     "type": "git",
@@ -20,7 +21,9 @@
   },
   "homepage": "https://github.com/EdilsonRogerioCuambe/pet-adoption-app#readme",
   "devDependencies": {
+    "@rocketseat/eslint-config": "2.1.0",
     "@types/node": "20.5.0",
+    "eslint": "8.47.0",
     "tsup": "7.2.0",
     "tsx": "3.12.7",
     "typescript": "5.1.6"
