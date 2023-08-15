@@ -1,0 +1,29 @@
+{
+  "name": "find-a-friend",
+  "version": "1.0.0",
+  "description": "- [ ] Deve ser possível cadastrar um pet\r - [ ] Deve ser possível listar todos os pets disponíveis para adoção em uma cidade\r - [ ] Deve ser possível filtrar pets por suas características\r - [ ] Deve ser possível visualizar detalhes de um pet para adoção\r - [ ] Deve ser possível se cadastrar como uma ORG\r - [ ] Deve ser possível realizar login como uma ORG",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsup src --out-dir build",
+    "start": "node build/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EdilsonRogerioCuambe/pet-adoption-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EdilsonRogerioCuambe/pet-adoption-app/issues"
+  },
+  "homepage": "https://github.com/EdilsonRogerioCuambe/pet-adoption-app#readme",
+  "devDependencies": {
+    "@types/node": "20.5.0",
+    "typescript": "5.1.6"
+  },
+  "dependencies": {
+    "fastify": "4.21.0"
+  }
+}
