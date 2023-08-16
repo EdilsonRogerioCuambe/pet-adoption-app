@@ -36,6 +36,7 @@ model Pet {
 
 model Organization {
   id       String @id @default(uuid())
+  photo    String?
   name     String
   adress   String
   whatsapp String
@@ -47,6 +48,7 @@ model Organization {
 
 model User {
   id             String        @id @default(uuid())
+  photo          String?
   name           String
   email          String        @unique
   password       String

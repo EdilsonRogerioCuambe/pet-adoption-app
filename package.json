@@ -30,9 +30,15 @@
     "typescript": "5.1.6"
   },
   "dependencies": {
+    "@fastify/multipart": "6.0.1",
     "@prisma/client": "5.1.1",
+    "@types/bcryptjs": "2.4.2",
+    "bcryptjs": "2.4.3",
+    "cloudinary": "1.40.0",
     "dotenv": "16.3.1",
     "fastify": "4.21.0",
+    "fastify-multer": "2.0.3",
+    "multer-storage-cloudinary": "4.0.0",
     "zod": "3.22.1"
   }
 }
