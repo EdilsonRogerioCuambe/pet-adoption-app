@@ -1,7 +1,10 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { prisma } from '@/lib/prisma'
 import { z } from 'zod'
-import { hash } from 'bcryptjs'
+import { registerUserUseCase } from '@/use-cases/register.user.use.case'
+
+interface MultipartFile {
+  path: string
+}
 
 export async function registerUserController(
   request: FastifyRequest,
@@ -15,24 +18,17 @@ export async function registerUserController(
 
   const { name, email, password } = registerUserSchema.parse(request.body)
 
-  const hashedPassword = await hash(password, 10)
+  const { path: photo } = request.file as unknown as MultipartFile
 
-  if (!request.file) {
-    return reply.status(400).send({
-      message: 'No file uploaded',
-    })
-  }
-
-  const { path: photo } = request.file
-
-  await prisma.user.create({
-    data: {
+  try {
+    await registerUserUseCase({
       name,
       email,
-      password: hashedPassword,
+      password,
       photo,
-    },
-  })
-
-  return reply.status(201).send()
+    })
+    return reply.status(201).send()
+  } catch (error) {
+    return reply.status(409).send()
+  }
 }
