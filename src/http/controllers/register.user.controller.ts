@@ -1,6 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
-import { registerUserUseCase } from '@/use-cases/register.user.use.case'
+import { RegisterUseCase } from '@/use-cases/register.user.use.case'
+import { PrismaUsersRepository } from '@/repositories/prisma.users.repository'
 
 interface MultipartFile {
   path: string
@@ -21,7 +22,10 @@ export async function registerUserController(
   const { path: photo } = request.file as unknown as MultipartFile
 
   try {
-    await registerUserUseCase({
+    const usersRepository = new PrismaUsersRepository()
+    const registerUseCase = new RegisterUseCase(usersRepository)
+
+    await registerUseCase.execute({
       name,
       email,
       password,
