@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import { RegisterUseCase } from '@/use-cases/register.user.use.case'
-import { PrismaUsersRepository } from '@/repositories/prisma.users.repository'
+import { PrismaUsersRepository } from '@/repositories/prisma/prisma.users.repository'
 
 interface MultipartFile {
   path: string
