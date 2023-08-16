@@ -2,6 +2,7 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import { RegisterUseCase } from '@/use-cases/register.user.use.case'
 import { PrismaUsersRepository } from '@/repositories/prisma/prisma.users.repository'
+import { UserAlreadyExistsError } from '@/use-cases/err/user.already.exists'
 
 interface MultipartFile {
   path: string
@@ -33,6 +34,12 @@ export async function registerUserController(
     })
     return reply.status(201).send()
   } catch (error) {
-    return reply.status(409).send()
+    if (error instanceof UserAlreadyExistsError) {
+      return reply.status(409).send({
+        message: error.message,
+      })
+    }
+
+    throw error
   }
 }
