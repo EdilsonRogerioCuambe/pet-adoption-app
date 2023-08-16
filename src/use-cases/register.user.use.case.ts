@@ -7,12 +7,19 @@ interface RegisterUserUseCaseProps {
   email: string
   password: string
   photo: string
+  organizationId: string
 }
 
 export class RegisterUseCase {
   constructor(private usersRepository: UsersRepository) {}
 
-  async execute({ name, email, password, photo }: RegisterUserUseCaseProps) {
+  async execute({
+    name,
+    email,
+    password,
+    photo,
+    organizationId,
+  }: RegisterUserUseCaseProps) {
     const hashedPassword = await hash(password, 10)
 
     const userAlreadyExists = await this.usersRepository.findByEmail(email)
@@ -26,6 +33,11 @@ export class RegisterUseCase {
       email,
       password: hashedPassword,
       photo,
+      organization: {
+        connect: {
+          id: organizationId,
+        },
+      },
     })
   }
 }

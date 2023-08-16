@@ -16,9 +16,14 @@ export async function registerUserController(
     name: z.string(),
     email: z.string().email(),
     password: z.string().min(8).regex(/[a-z]/).regex(/[A-Z]/).regex(/[0-9]/),
+    organizationId: z.string().optional(),
   })
 
-  const { name, email, password } = registerUserSchema.parse(request.body)
+  const { name, email, password, organizationId } = registerUserSchema.parse(
+    request.body,
+  )
+
+  const normalizedOrganizationId = organizationId || ''
 
   const { path: photo } = request.file as unknown as MultipartFile
 
@@ -31,6 +36,7 @@ export async function registerUserController(
       email,
       password,
       photo,
+      organizationId: normalizedOrganizationId,
     })
     return reply.status(201).send()
   } catch (error) {

@@ -4,6 +4,9 @@ import { CloudinaryStorage } from 'multer-storage-cloudinary'
 import { registerUserController } from './controllers/register.user.controller'
 import cloudinary from 'cloudinary'
 import { env } from '@/env'
+import { registerPetController } from './controllers/register.pets.controller'
+import { registerCityController } from './controllers/register.city.controller'
+import { registerOrganizationController } from './controllers/register.organization.controller'
 
 cloudinary.v2.config({
   cloud_name: env.CLOUDINARY_CLOUD_NAME,
@@ -28,4 +31,14 @@ export async function appRoutes(app: FastifyInstance) {
     { preHandler: upload.single('photo') },
     registerUserController,
   )
+
+  app.post(
+    '/pets',
+    { preHandler: upload.array('images') },
+    registerPetController,
+  )
+
+  app.post('/cities', registerCityController)
+
+  app.post('/organizations', registerOrganizationController)
 }
