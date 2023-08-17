@@ -3,6 +3,56 @@ import { Prisma } from '@prisma/client'
 import { PetsRepository } from '../pets.repository'
 
 export class PrismaPetsRepository implements PetsRepository {
+  getPetsByCity(city: string): Promise<
+    {
+      id: string
+      name: string
+      age: string
+      breed: string
+      size: string
+      description: string
+      images: string[]
+      cityId: string
+      organizationId: string
+      userId: string
+    }[]
+  > {
+    const pets = prisma.pet.findMany({
+      where: {
+        city: {
+          name: city,
+        },
+      },
+    })
+
+    return pets
+  }
+
+  async getPetsByOrganization(organization: string): Promise<
+    {
+      id: string
+      name: string
+      age: string
+      breed: string
+      size: string
+      description: string
+      images: string[]
+      cityId: string
+      organizationId: string
+      userId: string
+    }[]
+  > {
+    const pets = await prisma.pet.findMany({
+      where: {
+        organizationId: {
+          contains: organization,
+        },
+      },
+    })
+
+    return pets
+  }
+
   async create(data: Prisma.PetCreateInput): Promise<{
     id: string
     name: string
