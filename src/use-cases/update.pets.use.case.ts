@@ -3,12 +3,12 @@ import { Pet } from '@prisma/client'
 
 interface UpdatePetUseCaseProps {
   id: string
-  name: string
-  age: string
-  breed: string
-  size: string
-  description: string
-  images: string[]
+  name?: string
+  age?: string
+  breed?: string
+  size?: string
+  description?: string
+  images?: string[]
 }
 
 export class UpdatePetUseCase {

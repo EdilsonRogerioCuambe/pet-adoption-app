@@ -10,6 +10,7 @@ import { registerOrganizationController } from './controllers/register.organizat
 import { GetPetsUseCase } from '@/use-cases/get.pets.use.case'
 import { getPetsController } from './controllers/get.pets.controller'
 import { getPetsByOrganizationController } from './controllers/get.pets.by.organization.controllers'
+import { updatePetController } from './controllers/update.pets.controller'
 
 cloudinary.v2.config({
   cloud_name: env.CLOUDINARY_CLOUD_NAME,
@@ -51,4 +52,10 @@ export async function appRoutes(app: FastifyInstance) {
   // GET PETS BY CITY
   // GET PETS BY ORGANIZATION
   app.get(`/pets/organization`, getPetsByOrganizationController)
+
+  app.put(
+    '/pets/:id',
+    { preHandler: upload.array('images') },
+    updatePetController,
+  )
 }
