@@ -24,6 +24,7 @@ export class UpdatePetUseCase {
     images,
   }: UpdatePetUseCaseProps): Promise<Pet> {
     const pet = await this.petsRepository.update(id, {
+      id,
       name,
       age,
       breed,

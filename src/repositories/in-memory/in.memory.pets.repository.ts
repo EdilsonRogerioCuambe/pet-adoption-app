@@ -37,7 +37,9 @@ export class InMemoryPetsRepository implements PetsRepository {
       userId: string
     }[]
   > {
-    throw new Error('Method not implemented.')
+    const pets = this.pets
+
+    return Promise.resolve(pets)
   }
 
   async findById(id: string): Promise<{
@@ -95,7 +97,7 @@ export class InMemoryPetsRepository implements PetsRepository {
     return updatedPet
   }
 
-  delete(id: string): Promise<void> {
+  async delete(id: string): Promise<void> {
     const pet = this.pets.find((pet) => pet.id === id)
 
     if (!pet) {
@@ -107,7 +109,7 @@ export class InMemoryPetsRepository implements PetsRepository {
     return Promise.resolve()
   }
 
-  getPetsByCity(city: string): Promise<
+  async getPetsByCity(city: string): Promise<
     {
       id: string
       name: string
@@ -126,7 +128,7 @@ export class InMemoryPetsRepository implements PetsRepository {
     return Promise.resolve(pets)
   }
 
-  getPetsByOrganization(organization: string): Promise<
+  async getPetsByOrganization(organization: string): Promise<
     {
       id: string
       name: string

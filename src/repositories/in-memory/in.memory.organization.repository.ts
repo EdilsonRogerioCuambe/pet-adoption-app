@@ -39,26 +39,21 @@ export class InMemoryOrganizationsRepository
   async update(
     id: string,
     data: Prisma.OrganizationUpdateInput,
-  ): Promise<{
-    id: string
-    photo: string | null
-    name: string
-    adress: string
-    whatsapp: string
-  }> {
-    const org = this.organizations.find((org) => org.id === id)
-
-    if (!org) {
-      throw new Error('Organization not found')
-    }
-
-    const updatedOrg = {
-      ...org,
+  ): Promise<Organization> {
+    const updatedOrganization: Organization = {
       ...data,
-      id: org.id,
+      id,
+      name: data.name as string,
+      adress: data.adress as string,
+      whatsapp: data.whatsapp as string,
+      photo: data.photo as string | null,
     }
 
-    return updatedOrg as Organization
+    this.organizations = this.organizations.map((org) =>
+      org.id === id ? updatedOrganization : org,
+    )
+
+    return updatedOrganization
   }
 
   async delete(id: string): Promise<{
