@@ -1,12 +1,17 @@
-import { it, describe, expect } from 'vitest'
+import { it, describe, expect, beforeEach } from 'vitest'
 import { InMemoryOrganizationsRepository } from '@/repositories/in-memory/in.memory.organization.repository'
 import { UpdateOrganizationUseCase } from './update.organization.use.case'
 
-describe('Update organization use case', () => {
-  it('should be able to update a organization', async () => {
-    const organizationsRepository = new InMemoryOrganizationsRepository()
-    const sut = new UpdateOrganizationUseCase(organizationsRepository)
+let organizationsRepository: InMemoryOrganizationsRepository
+let sut: UpdateOrganizationUseCase
 
+describe('Update organization use case', () => {
+  beforeEach(() => {
+    organizationsRepository = new InMemoryOrganizationsRepository()
+    sut = new UpdateOrganizationUseCase(organizationsRepository)
+  })
+
+  it('should be able to update a organization', async () => {
     const organization = await organizationsRepository.create({
       name: 'any_name',
       whatsapp: 'any_whatsapp',

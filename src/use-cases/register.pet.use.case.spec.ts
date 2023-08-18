@@ -1,13 +1,18 @@
-import { it, describe, expect } from 'vitest'
+import { it, describe, expect, beforeEach } from 'vitest'
 import { RegisterPetUseCase } from './register.pet.use.case'
 import { InMemoryPetsRepository } from '@/repositories/in-memory/in.memory.pets.repository'
 
-describe('Register Pet Use Case', () => {
-  it('should be able to register a new pet', async () => {
-    const petsRepository = new InMemoryPetsRepository()
-    const registerPetUseCase = new RegisterPetUseCase(petsRepository)
+let petsRepository: InMemoryPetsRepository
+let sut: RegisterPetUseCase
 
-    const pet = await registerPetUseCase.execute({
+describe('Register Pet Use Case', () => {
+  beforeEach(() => {
+    petsRepository = new InMemoryPetsRepository()
+    sut = new RegisterPetUseCase(petsRepository)
+  })
+
+  it('should be able to register a new pet', async () => {
+    const pet = await sut.execute({
       name: 'Hulk',
       age: '2',
       breed: 'Pitbull',

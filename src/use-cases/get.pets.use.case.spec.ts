@@ -1,12 +1,17 @@
-import { it, describe, expect } from 'vitest'
+import { it, describe, expect, beforeEach } from 'vitest'
 import { InMemoryPetsRepository } from '@/repositories/in-memory/in.memory.pets.repository'
 import { GetPetsUseCase } from './get.pets.use.case'
 
-describe('Get pets use case', () => {
-  it('should be able to get all pets', async () => {
-    const petsRepository = new InMemoryPetsRepository()
-    const sut = new GetPetsUseCase(petsRepository)
+let petsRepository: InMemoryPetsRepository
+let sut: GetPetsUseCase
 
+describe('Get pets use case', () => {
+  beforeEach(() => {
+    petsRepository = new InMemoryPetsRepository()
+    sut = new GetPetsUseCase(petsRepository)
+  })
+
+  it('should be able to get all pets', async () => {
     const petOne = await petsRepository.create({
       name: 'any_name',
       age: 'any_age',

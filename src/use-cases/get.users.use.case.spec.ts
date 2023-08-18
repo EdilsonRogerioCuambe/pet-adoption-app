@@ -1,12 +1,17 @@
-import { it, describe, expect } from 'vitest'
+import { it, describe, expect, beforeEach } from 'vitest'
 import { InMemoryUsersRepository } from '@/repositories/in-memory/in.memory.users.repository'
 import { GetUsersUseCase } from './get.users.use.case'
 
-describe('Get users use case', () => {
-  it('should be able to get all users', async () => {
-    const usersRepository = new InMemoryUsersRepository()
-    const sut = new GetUsersUseCase(usersRepository)
+let usersRepository: InMemoryUsersRepository
+let sut: GetUsersUseCase
 
+describe('Get users use case', () => {
+  beforeEach(() => {
+    usersRepository = new InMemoryUsersRepository()
+    sut = new GetUsersUseCase(usersRepository)
+  })
+
+  it('should be able to get all users', async () => {
     const userOne = await usersRepository.create({
       name: 'any_name',
       email: 'any_email',

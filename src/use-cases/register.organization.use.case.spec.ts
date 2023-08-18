@@ -1,16 +1,19 @@
-import { it, describe, expect } from 'vitest'
+import { it, describe, expect, beforeEach } from 'vitest'
 import { RegisterOrganizationUseCase } from './register.organization.use.case'
 import { InMemoryOrganizationsRepository } from '@/repositories/in-memory/in.memory.organization.repository'
 import { OrganizationAlreadyExistsError } from './err/organization.already.exists'
 
-describe('Register Organization Use Case', () => {
-  it('should be able to register a new organization', async () => {
-    const organizationsRepository = new InMemoryOrganizationsRepository()
-    const registerOrganizationUseCase = new RegisterOrganizationUseCase(
-      organizationsRepository,
-    )
+let organizationsRepository: InMemoryOrganizationsRepository
+let sut: RegisterOrganizationUseCase
 
-    const organization = await registerOrganizationUseCase.execute({
+describe('Register Organization Use Case', () => {
+  beforeEach(() => {
+    organizationsRepository = new InMemoryOrganizationsRepository()
+    sut = new RegisterOrganizationUseCase(organizationsRepository)
+  })
+
+  it('should be able to register a new organization', async () => {
+    const organization = await sut.execute({
       name: 'Organization Name',
       adress: 'Organization Adress',
       whatsapp: 'Organization Whatsapp',
@@ -26,19 +29,14 @@ describe('Register Organization Use Case', () => {
   })
 
   it('should not be able to register a new organization with an already existing name', async () => {
-    const organizationsRepository = new InMemoryOrganizationsRepository()
-    const registerOrganizationUseCase = new RegisterOrganizationUseCase(
-      organizationsRepository,
-    )
-
-    await registerOrganizationUseCase.execute({
+    await organizationsRepository.create({
       name: 'Organization Name',
       adress: 'Organization Adress',
       whatsapp: 'Organization Whatsapp',
     })
 
     try {
-      await registerOrganizationUseCase.execute({
+      await sut.execute({
         name: 'Organization Name',
         adress: 'Organization Adress',
         whatsapp: 'Organization Whatsapp',
