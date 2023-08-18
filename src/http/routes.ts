@@ -11,6 +11,7 @@ import { getPetsController } from './controllers/get.pets.controller'
 import { updatePetController } from './controllers/update.pets.controller'
 import { deletePetsController } from './controllers/delete.pets.controller'
 import { getPetController } from './controllers/get.pet.controller'
+import { authenticateController } from './controllers/authenticate.controller'
 
 cloudinary.v2.config({
   cloud_name: env.CLOUDINARY_CLOUD_NAME,
@@ -30,6 +31,8 @@ const upload = multer({
 })
 
 export async function appRoutes(app: FastifyInstance) {
+  app.post('/sessions', authenticateController)
+
   app.post(
     '/users',
     { preHandler: upload.single('photo') },
