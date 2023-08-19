@@ -4,6 +4,7 @@ import { UserAlreadyExistsError } from './err/user.already.exists'
 import { User } from '@prisma/client'
 
 interface RegisterUserUseCaseProps {
+  id?: string
   name: string
   email: string
   password: string
@@ -19,6 +20,7 @@ export class RegisterUseCase {
   constructor(private usersRepository: UsersRepository) {}
 
   async execute({
+    id,
     name,
     email,
     password,
@@ -34,15 +36,12 @@ export class RegisterUseCase {
     }
 
     const user = await this.usersRepository.create({
+      id,
       name,
       email,
       password: hashedPassword,
       photo,
-      organization: {
-        connect: {
-          id: organizationId,
-        },
-      },
+      organizationId,
     })
 
     return {

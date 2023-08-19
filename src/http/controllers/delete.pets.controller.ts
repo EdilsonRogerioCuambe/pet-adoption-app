@@ -1,14 +1,12 @@
-import { DeletePetUseCase } from '@/use-cases/delete.pets.use.case'
-import { PrismaPetsRepository } from '@/repositories/prisma/prisma.pets.repository'
 import { FastifyRequest, FastifyReply } from 'fastify'
+import { makeDeletePetsUseCase } from '@/use-cases/factories/make.delete.pets.use.case'
 
 export async function deletePetsController(
   request: FastifyRequest<{ Params: { id: string } }>,
   reply: FastifyReply,
 ) {
   try {
-    const petsRepository = new PrismaPetsRepository()
-    const deletePetUseCase = new DeletePetUseCase(petsRepository)
+    const deletePetUseCase = makeDeletePetsUseCase()
     const { pet } = await deletePetUseCase.execute(request.params.id)
 
     return reply.status(200).send({

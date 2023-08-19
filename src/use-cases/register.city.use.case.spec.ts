@@ -12,7 +12,7 @@ describe('Register city use case', () => {
   })
 
   it('should be able to register a new city', async () => {
-    const city = await sut.execute({ name: 'any_name' })
+    const city = await sut.execute({ id: 'any_id', name: 'any_name' })
 
     expect(city).toEqual(
       expect.objectContaining({

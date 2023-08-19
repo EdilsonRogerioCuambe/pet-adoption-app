@@ -2,6 +2,19 @@ import { Prisma, User } from '@prisma/client'
 import { UsersRepository } from '../users.repository'
 
 export class InMemoryUsersRepository implements UsersRepository {
+  findById(id: string): Promise<{
+    id: string
+    photo: string | null
+    name: string
+    email: string
+    password: string
+    organizationId: string | null
+  } | null> {
+    const user = this.users.find((user) => user.id === id)
+
+    return Promise.resolve(user || null)
+  }
+
   delete(id: string): Promise<{
     id: string
     photo: string | null
@@ -23,7 +36,7 @@ export class InMemoryUsersRepository implements UsersRepository {
 
   async update(
     id: string,
-    data: Prisma.UserUpdateInput,
+    data: Prisma.UserUncheckedUpdateInput,
   ): Promise<{
     id: string
     photo: string | null
@@ -45,7 +58,7 @@ export class InMemoryUsersRepository implements UsersRepository {
       name: data.name as string,
       email: data.email as string,
       password: data.password as string,
-      organizationId: data.organization as string | null,
+      organizationId: data.organizationId as string | null,
       photo: data.photo as string | null,
     }
 
@@ -77,19 +90,26 @@ export class InMemoryUsersRepository implements UsersRepository {
     return Promise.resolve(users)
   }
 
-  async create(data: Prisma.UserCreateInput): Promise<User> {
+  async create(data: Prisma.UserUncheckedCreateInput): Promise<{
+    id: string
+    photo: string | null
+    name: string
+    email: string
+    password: string
+    organizationId: string | null
+  }> {
     const user = {
-      id: '4fe2e48a-7e19-4f61-95ee-d9bd468dc00e',
-      name: data.name,
-      email: data.email,
-      password: data.password,
-      organizationId: data.organization as string | null,
+      id: data.id as string,
+      name: data.name as string,
+      email: data.email as string,
+      password: data.password as string,
+      organizationId: data.organizationId as string | null,
       photo: data.photo as string | null,
     }
 
     this.users.push(user)
 
-    return user
+    return Promise.resolve(user)
   }
 
   async findByEmail(email: string): Promise<User | null> {

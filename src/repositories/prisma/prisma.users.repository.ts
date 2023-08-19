@@ -3,6 +3,23 @@ import { Prisma } from '@prisma/client'
 import { UsersRepository } from '../users.repository'
 
 export class PrismaUsersRepository implements UsersRepository {
+  async findById(id: string): Promise<{
+    id: string
+    photo: string | null
+    name: string
+    email: string
+    password: string
+    organizationId: string | null
+  } | null> {
+    const user = prisma.user.findUnique({
+      where: {
+        id,
+      },
+    })
+
+    return user
+  }
+
   async delete(id: string): Promise<{
     id: string
     photo: string | null

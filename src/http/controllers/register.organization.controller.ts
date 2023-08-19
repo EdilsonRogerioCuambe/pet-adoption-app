@@ -1,7 +1,6 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { z } from 'zod'
-import { RegisterOrganizationUseCase } from '@/use-cases/register.organization.use.case'
-import { PrismaOrganizationsRepository } from '@/repositories/prisma/prisma.organizations.repository'
+import { makeRegisterOrganizationUseCase } from '@/use-cases/factories/make.register.organization.use.case'
 
 export async function registerOrganizationController(
   request: FastifyRequest,
@@ -20,10 +19,7 @@ export async function registerOrganizationController(
   const whatsappAdress = `https://api.whatsapp.com/send?phone=${whatsapp}`
 
   try {
-    const organizationsRepository = new PrismaOrganizationsRepository()
-    const registerOrganizationUseCase = new RegisterOrganizationUseCase(
-      organizationsRepository,
-    )
+    const registerOrganizationUseCase = makeRegisterOrganizationUseCase()
 
     await registerOrganizationUseCase.execute({
       name,

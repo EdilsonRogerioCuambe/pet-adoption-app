@@ -1,7 +1,6 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { z } from 'zod'
-import { RegisterCityUseCase } from '@/use-cases/register.city.use.case'
-import { PrismaCitiesRepository } from '@/repositories/prisma/prisma.cities.repository'
+import { makeRegisterCitiesUseCase } from '@/use-cases/factories/make.register.cities.use.case'
 
 export async function registerCityController(
   request: FastifyRequest,
@@ -13,8 +12,7 @@ export async function registerCityController(
 
   const { name } = registerCitySchema.parse(request.body)
 
-  const citiesRepository = new PrismaCitiesRepository()
-  const registerCityUseCase = new RegisterCityUseCase(citiesRepository)
+  const registerCityUseCase = makeRegisterCitiesUseCase()
 
   const city = await registerCityUseCase.execute({
     name,

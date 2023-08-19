@@ -1,13 +1,14 @@
 import { PetsRepository } from '@/repositories/pets.repository'
 
 interface RegisterPetUseCaseProps {
+  id: string
   name: string
   age: string
   breed: string
   size: string
   description: string
   images: string[]
-  city: string
+  cityId: string
   organizationId: string
   userId: string
 }
@@ -16,38 +17,28 @@ export class RegisterPetUseCase {
   constructor(private petsRepository: PetsRepository) {}
 
   async execute({
+    id,
     name,
     age,
     breed,
     size,
     description,
     images,
-    city,
+    cityId,
     organizationId,
     userId,
   }: RegisterPetUseCaseProps) {
     const pet = await this.petsRepository.create({
+      id,
       name,
       age,
       breed,
       size,
       description,
       images,
-      user: {
-        connect: {
-          id: userId,
-        },
-      },
-      city: {
-        connect: {
-          id: city,
-        },
-      },
-      organization: {
-        connect: {
-          id: organizationId,
-        },
-      },
+      userId,
+      cityId,
+      organizationId,
     })
 
     return pet

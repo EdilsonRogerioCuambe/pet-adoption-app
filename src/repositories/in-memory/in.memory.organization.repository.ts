@@ -14,7 +14,7 @@ export class InMemoryOrganizationsRepository
     whatsapp: string
   }> {
     const organization: Organization = {
-      id: '4fe2e48a-7e19-4f61-95ee-d9bd468dc00e',
+      id: data.id as string,
       photo: data.photo || null,
       name: data.name,
       adress: data.adress,

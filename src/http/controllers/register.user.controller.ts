@@ -1,8 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
-import { RegisterUseCase } from '@/use-cases/register.user.use.case'
-import { PrismaUsersRepository } from '@/repositories/prisma/prisma.users.repository'
 import { UserAlreadyExistsError } from '@/use-cases/err/user.already.exists'
+import { makeRegisterUserUseCase } from '@/use-cases/factories/make.register.user.use.case'
 
 interface MultipartFile {
   path: string
@@ -28,8 +27,7 @@ export async function registerUserController(
   const { path: photo } = request.file as unknown as MultipartFile
 
   try {
-    const usersRepository = new PrismaUsersRepository()
-    const registerUseCase = new RegisterUseCase(usersRepository)
+    const registerUseCase = makeRegisterUserUseCase()
 
     await registerUseCase.execute({
       name,

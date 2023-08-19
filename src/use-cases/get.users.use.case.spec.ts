@@ -13,31 +13,21 @@ describe('Get users use case', () => {
 
   it('should be able to get all users', async () => {
     const userOne = await usersRepository.create({
+      id: 'any_id',
       name: 'any_name',
       email: 'any_email',
       password: 'any_password',
       photo: 'any_photo_url',
-      organization: {
-        create: {
-          name: 'any_organization_name',
-          whatsapp: 'any_whatsapp',
-          adress: 'any_adress',
-        },
-      },
+      organizationId: 'any_organization_id',
     })
 
     const userTwo = await usersRepository.create({
+      id: 'any_id',
       name: 'any_name',
       email: 'any_email',
       password: 'any_password',
       photo: 'any_photo_url',
-      organization: {
-        create: {
-          name: 'any_organization_name',
-          whatsapp: 'any_whatsapp',
-          adress: 'any_adress',
-        },
-      },
+      organizationId: 'any_organization_id',
     })
 
     const { users } = await sut.execute()

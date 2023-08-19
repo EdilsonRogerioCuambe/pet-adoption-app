@@ -4,18 +4,29 @@ import { PetsRepository } from '../pets.repository'
 export class InMemoryPetsRepository implements PetsRepository {
   private pets: Pet[] = []
 
-  async create(data: Prisma.PetCreateInput): Promise<Pet> {
+  async create(data: Prisma.PetUncheckedCreateInput): Promise<{
+    id: string
+    name: string
+    age: string
+    breed: string
+    size: string
+    description: string
+    images: string[]
+    cityId: string
+    organizationId: string
+    userId: string
+  }> {
     const pet: Pet = {
-      id: '4fe2e48a-7e19-4f61-95ee-d9bd468dc00e',
-      name: data.name,
-      age: data.age,
-      breed: data.breed,
-      size: data.size,
-      description: data.description,
+      id: data.id as string,
+      name: data.name as string,
+      age: data.age as string,
+      breed: data.breed as string,
+      size: data.size as string,
+      description: data.description as string,
       images: data.images as string[],
-      cityId: data.city as string,
-      organizationId: data.organization as string,
-      userId: data.user as string,
+      cityId: data.cityId as string,
+      organizationId: data.organizationId as string,
+      userId: data.userId as string,
     }
 
     this.pets.push(pet)
@@ -61,7 +72,7 @@ export class InMemoryPetsRepository implements PetsRepository {
 
   async update(
     id: string,
-    data: Prisma.PetUpdateInput,
+    data: Prisma.PetUncheckedUpdateInput,
   ): Promise<{
     id: string
     name: string
@@ -83,16 +94,19 @@ export class InMemoryPetsRepository implements PetsRepository {
     const updatedPet: Pet = {
       ...pet,
       ...data,
-      id: data.id as string,
+      id: pet.id,
       name: data.name as string,
       age: data.age as string,
       breed: data.breed as string,
       size: data.size as string,
       description: data.description as string,
       images: data.images as string[],
+      cityId: data.cityId as string,
+      organizationId: data.organizationId as string,
+      userId: data.userId as string,
     }
 
-    this.pets.push(updatedPet)
+    this.pets = this.pets.map((pet) => (pet.id === id ? updatedPet : pet))
 
     return updatedPet
   }

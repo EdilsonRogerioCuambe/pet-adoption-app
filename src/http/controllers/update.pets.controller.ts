@@ -1,7 +1,6 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { z } from 'zod'
-import { UpdatePetUseCase } from '@/use-cases/update.pets.use.case'
-import { PrismaPetsRepository } from '@/repositories/prisma/prisma.pets.repository'
+import { makeUpdatePetUseCase } from '@/use-cases/factories/make.update.pet.use.case'
 
 interface MultipartFile {
   path: string
@@ -33,8 +32,7 @@ export async function updatePetController(
   }
 
   try {
-    const petsRepository = new PrismaPetsRepository()
-    const updatePetUseCase = new UpdatePetUseCase(petsRepository)
+    const updatePetUseCase = makeUpdatePetUseCase()
 
     await updatePetUseCase.execute({
       id,

@@ -1,14 +1,12 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
-import { PrismaPetsRepository } from '@/repositories/prisma/prisma.pets.repository'
-import { GetPetsUseCase } from '@/use-cases/get.pets.use.case'
+import { makeGetPetsUseCase } from '@/use-cases/factories/make.get.pets.use.case'
 
 export async function getPetsController(
   _request: FastifyRequest,
   reply: FastifyReply,
 ) {
   try {
-    const petsRepository = new PrismaPetsRepository()
-    const getPetsUseCase = new GetPetsUseCase(petsRepository)
+    const getPetsUseCase = makeGetPetsUseCase()
     const { pets } = await getPetsUseCase.execute()
 
     return reply.status(200).send({

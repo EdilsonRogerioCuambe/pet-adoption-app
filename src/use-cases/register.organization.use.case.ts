@@ -2,6 +2,7 @@ import { OrganizationsRepository } from '@/repositories/organizations.repository
 import { OrganizationAlreadyExistsError } from './err/organization.already.exists'
 
 interface RegisterOrganizationUseCaseProps {
+  id?: string
   name: string
   adress: string
   whatsapp: string
@@ -12,6 +13,7 @@ export class RegisterOrganizationUseCase {
   constructor(private organizationsRepository: OrganizationsRepository) {}
 
   async execute({
+    id,
     name,
     adress,
     whatsapp,
@@ -25,6 +27,7 @@ export class RegisterOrganizationUseCase {
     }
 
     const organization = await this.organizationsRepository.create({
+      id,
       name,
       adress,
       whatsapp,

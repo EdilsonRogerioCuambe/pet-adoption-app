@@ -18,7 +18,6 @@ describe('Register User Use Case', () => {
       name: 'John Doe',
       email: 'johndoe@gmail.com',
       password: '@17johndoe17',
-      organizationId: '4fe2e48a-7e19-4f61-95ee-d9bd468dc00e',
     })
 
     const isPasswordHashed = await compare('@17johndoe17', user.password)
@@ -31,7 +30,6 @@ describe('Register User Use Case', () => {
       name: 'John Doe',
       email: 'johndoe@gmail.com',
       password: '@17johndoe17',
-      organizationId: '4fe2e48a-7e19-4f61-95ee-d9bd468dc00e',
     })
 
     await expect(() =>
@@ -45,11 +43,14 @@ describe('Register User Use Case', () => {
 
   it('should be able to register a new user', async () => {
     const { user } = await sut.execute({
+      id: 'any_id',
       name: 'John Doe',
       email: 'johndoe@gmail.com',
       password: '@17johndoe17',
+      organizationId: 'any_organization_id',
+      photo: 'any_photo_url',
     })
 
-    expect(user.id).toEqual(expect.any(String))
+    expect(user.id).toEqual('any_id')
   })
 })

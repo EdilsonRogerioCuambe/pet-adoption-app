@@ -13,13 +13,12 @@ describe('Update organization use case', () => {
 
   it('should be able to update a organization', async () => {
     const organization = await organizationsRepository.create({
+      id: 'any_id',
       name: 'any_name',
       whatsapp: 'any_whatsapp',
       adress: 'any_adress',
       photo: 'any_photo_url',
     })
-
-    console.log('organization', organization)
 
     const updatedOrganization = await sut.execute({
       id: organization.id,
@@ -27,8 +26,6 @@ describe('Update organization use case', () => {
       whatsapp: 'updated_whatsapp',
       adress: 'updated_adress',
     })
-
-    console.log('updatedOrganization', updatedOrganization)
 
     expect(updatedOrganization).toEqual(
       expect.objectContaining({
