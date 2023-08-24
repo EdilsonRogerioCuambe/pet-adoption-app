@@ -47,3 +47,7 @@ Para configurar e utilizar este projeto, siga os seguintes passos:
 ## Testes
 
 Para executar os testes, utilize o comando `npm run test`
+
+## Licença
+
+Este projeto está licenciado sob a [Licença MIT](LICENSE). Consulte o arquivo LICENSE para obter mais informações.
