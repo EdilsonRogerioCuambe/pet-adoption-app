@@ -1,51 +1,24 @@
 import { prisma } from '@/lib/prisma'
-import { Prisma } from '@prisma/client'
+import { Prisma, Pet } from '@prisma/client'
 import { PetsRepository } from '../pets.repository'
 
 export class PrismaPetsRepository implements PetsRepository {
-  getPetsByCity(city: string): Promise<
-    {
-      id: string
-      name: string
-      age: string
-      breed: string
-      size: string
-      description: string
-      images: string[]
-      cityId: string
-      organizationId: string
-      userId: string
-    }[]
-  > {
-    const pets = prisma.pet.findMany({
-      where: {
-        city: {
-          name: city,
-        },
-      },
-    })
-
-    return pets
-  }
-
-  async getPetsByOrganization(organization: string): Promise<
-    {
-      id: string
-      name: string
-      age: string
-      breed: string
-      size: string
-      description: string
-      images: string[]
-      cityId: string
-      organizationId: string
-      userId: string
-    }[]
-  > {
+  async searchPetsByAge(age: string): Promise<Pet[]> {
     const pets = await prisma.pet.findMany({
       where: {
-        organizationId: {
-          contains: organization,
+        age,
+      },
+    })
+
+    return pets
+  }
+
+  async searchPetsByCity(query: string): Promise<Pet[]> {
+    const pets = await prisma.pet.findMany({
+      where: {
+        city: {
+          contains: query,
+          mode: 'insensitive',
         },
       },
     })
@@ -53,18 +26,7 @@ export class PrismaPetsRepository implements PetsRepository {
     return pets
   }
 
-  async create(data: Prisma.PetCreateInput): Promise<{
-    id: string
-    name: string
-    age: string
-    breed: string
-    size: string
-    description: string
-    images: string[]
-    cityId: string
-    organizationId: string
-    userId: string
-  }> {
+  async create(data: Prisma.PetUncheckedCreateInput): Promise<Pet> {
     const pet = await prisma.pet.create({
       data,
     })
@@ -72,37 +34,13 @@ export class PrismaPetsRepository implements PetsRepository {
     return pet
   }
 
-  async findAll(): Promise<
-    {
-      id: string
-      name: string
-      age: string
-      breed: string
-      size: string
-      description: string
-      images: string[]
-      cityId: string
-      organizationId: string
-      userId: string
-    }[]
-  > {
+  async findAll(): Promise<Pet[]> {
     const pets = await prisma.pet.findMany()
 
     return pets
   }
 
-  async findById(id: string): Promise<{
-    id: string
-    name: string
-    age: string
-    breed: string
-    size: string
-    description: string
-    images: string[]
-    cityId: string
-    organizationId: string
-    userId: string
-  } | null> {
+  async findById(id: string): Promise<Pet | null> {
     const pet = await prisma.pet.findUnique({
       where: {
         id,
@@ -112,21 +50,7 @@ export class PrismaPetsRepository implements PetsRepository {
     return pet
   }
 
-  async update(
-    id: string,
-    data: Prisma.PetUpdateInput,
-  ): Promise<{
-    id: string
-    name: string
-    age: string
-    breed: string
-    size: string
-    description: string
-    images: string[]
-    cityId: string
-    organizationId: string
-    userId: string
-  }> {
+  async update(id: string, data: Prisma.PetUpdateInput): Promise<Pet> {
     const pet = await prisma.pet.update({
       where: {
         id,

@@ -6,13 +6,19 @@ export class InMemoryOrganizationsRepository
 {
   private organizations: Organization[] = []
 
-  async create(data: Prisma.OrganizationCreateInput): Promise<{
-    id: string
-    photo: string | null
-    name: string
-    adress: string
-    whatsapp: string
-  }> {
+  async findAll(): Promise<Organization[]> {
+    const organizations = this.organizations
+
+    return organizations
+  }
+
+  async findById(id: string): Promise<Organization | null> {
+    const org = this.organizations.find((org) => org.id === id)
+
+    return org || null
+  }
+
+  async create(data: Prisma.OrganizationCreateInput): Promise<Organization> {
     const organization: Organization = {
       id: data.id as string,
       photo: data.photo || null,
@@ -21,18 +27,13 @@ export class InMemoryOrganizationsRepository
       whatsapp: data.whatsapp,
     }
 
+    this.organizations.push(organization)
+
     return organization
   }
 
-  async findByName(name: string): Promise<{
-    id: string
-    photo: string | null
-    name: string
-    adress: string
-    whatsapp: string
-  } | null> {
+  async findByName(name: string): Promise<Organization | null> {
     const org = this.organizations.find((org) => org.name === name)
-
     return org || null
   }
 
@@ -56,20 +57,15 @@ export class InMemoryOrganizationsRepository
     return updatedOrganization
   }
 
-  async delete(id: string): Promise<{
-    id: string
-    photo: string | null
-    name: string
-    adress: string
-    whatsapp: string
-  }> {
-    const org = this.organizations.find((org) => org.id === id)
+  async delete(id: string): Promise<Organization | null> {
+    const orgIndex = this.organizations.findIndex((org) => org.id === id)
 
-    if (!org) {
-      throw new Error('Organization not found')
+    if (orgIndex === -1) {
+      return null // Return null if organization is not found
     }
 
-    this.organizations = this.organizations.filter((org) => org.id !== id)
+    const org = this.organizations[orgIndex]
+    this.organizations.splice(orgIndex, 1) // Remove the organization from the array
 
     return org
   }

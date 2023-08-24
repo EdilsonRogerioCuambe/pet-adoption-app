@@ -22,7 +22,6 @@ describe('Update pet use case', () => {
       images: ['any_image_url'],
       organizationId: 'any_organization_id',
       userId: 'any_user_id',
-      cityId: 'any_city_id',
     })
 
     const updatedPet = await sut.execute({

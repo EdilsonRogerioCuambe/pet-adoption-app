@@ -22,7 +22,6 @@ describe('Get pet use case', () => {
       images: ['any_image_url'],
       organizationId: 'any_organization_id',
       userId: 'any_user_id',
-      cityId: 'any_city_id',
     })
 
     const { pet: foundedPet } = await sut.execute({ id: pet.id })

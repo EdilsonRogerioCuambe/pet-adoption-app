@@ -16,14 +16,13 @@ export async function registerPetController(
     breed: z.string(),
     size: z.string(),
     description: z.string(),
-    city: z.string(),
     organizationId: z.string(),
     userId: z.string(),
   })
 
   const images: string[] = []
 
-  const { name, age, breed, size, description, city, organizationId, userId } =
+  const { name, age, breed, size, description, organizationId, userId } =
     registerPetSchema.parse(request.body)
 
   for (const file of request.files as unknown as MultipartFile[]) {
@@ -39,8 +38,7 @@ export async function registerPetController(
       breed,
       size,
       description,
-      images: [...images],
-      city,
+      images,
       organizationId,
       userId,
     })

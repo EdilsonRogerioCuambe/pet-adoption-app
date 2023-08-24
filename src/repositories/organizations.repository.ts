@@ -7,5 +7,7 @@ export interface OrganizationsRepository {
     id: string,
     data: Prisma.OrganizationUpdateInput,
   ): Promise<Organization>
-  delete(id: string): Promise<Organization>
+  delete(id: string): Promise<Organization | null>
+  findById(id: string): Promise<Organization | null>
+  findAll(): Promise<Organization[]>
 }

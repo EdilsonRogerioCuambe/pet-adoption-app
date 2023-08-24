@@ -22,7 +22,6 @@ describe('Get pets use case', () => {
       images: ['any_image_url'],
       organizationId: 'any_organization_id',
       userId: 'any_user_id',
-      cityId: 'any_city_id',
     })
 
     const petTwo = await petsRepository.create({
@@ -35,7 +34,6 @@ describe('Get pets use case', () => {
       images: ['any_image_url'],
       organizationId: 'any_organization_id',
       userId: 'any_user_id',
-      cityId: 'any_city_id',
     })
 
     const { pets } = await sut.execute()

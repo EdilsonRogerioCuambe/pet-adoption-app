@@ -1,16 +1,16 @@
 import { PetsRepository } from '@/repositories/pets.repository'
 
 interface RegisterPetUseCaseProps {
-  id: string
+  id?: string
   name: string
   age: string
   breed: string
   size: string
   description: string
   images: string[]
-  cityId: string
   organizationId: string
   userId: string
+  city?: string
 }
 
 export class RegisterPetUseCase {
@@ -24,9 +24,9 @@ export class RegisterPetUseCase {
     size,
     description,
     images,
-    cityId,
     organizationId,
     userId,
+    city,
   }: RegisterPetUseCaseProps) {
     const pet = await this.petsRepository.create({
       id,
@@ -37,8 +37,8 @@ export class RegisterPetUseCase {
       description,
       images,
       userId,
-      cityId,
       organizationId,
+      city,
     })
 
     return pet

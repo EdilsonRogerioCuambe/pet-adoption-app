@@ -5,7 +5,6 @@ import { registerUserController } from './controllers/register.user.controller'
 import cloudinary from 'cloudinary'
 import { env } from '@/env'
 import { registerPetController } from './controllers/register.pets.controller'
-import { registerCityController } from './controllers/register.city.controller'
 import { registerOrganizationController } from './controllers/register.organization.controller'
 import { getPetsController } from './controllers/get.pets.controller'
 import { updatePetController } from './controllers/update.pets.controller'
@@ -44,8 +43,6 @@ export async function appRoutes(app: FastifyInstance) {
     { preHandler: upload.array('images') },
     registerPetController,
   )
-
-  app.post('/cities', registerCityController)
 
   app.post('/organizations', registerOrganizationController)
 

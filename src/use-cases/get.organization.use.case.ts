@@ -1,21 +1,19 @@
 import { Organization } from '@prisma/client'
-import { OrganizationsRepository } from '@/repositories/organizations.repository'
+import { OrganizationsRepository } from '../repositories/organizations.repository'
 
-interface DeleteOrganizationUseCaseResponse {
+interface GetOrganizationUseCaseResponse {
   organization: Organization
 }
 
-export class DeleteOrganizationUseCase {
+export class GetOrganizationUseCase {
   constructor(private organizationsRepository: OrganizationsRepository) {}
 
-  async execute(id: string): Promise<DeleteOrganizationUseCaseResponse> {
+  async execute(id: string): Promise<GetOrganizationUseCaseResponse> {
     const organization = await this.organizationsRepository.findById(id)
 
     if (!organization) {
       throw new Error('Organization not found')
     }
-
-    await this.organizationsRepository.delete(id)
 
     return { organization }
   }

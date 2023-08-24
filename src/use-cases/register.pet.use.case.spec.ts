@@ -20,7 +20,6 @@ describe('Register Pet Use Case', () => {
       size: 'Big',
       description: 'A big dog',
       images: ['image1', 'image2'],
-      cityId: '4fe2e48a-7e19-4f61-95ee-d9bd468dc00e',
       organizationId: '4fe2e48a-7e19-4f61-95ee-d9bd468dc00e',
       userId: '4fe2e48a-7e19-4f61-95ee-d9bd468dc00e',
     })
