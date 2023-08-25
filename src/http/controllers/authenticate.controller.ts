@@ -23,8 +23,17 @@ export async function authenticateController(
       password,
     })
 
+    const token = await reply.jwtSign(
+      {},
+      {
+        sign: {
+          sub: user.id,
+        },
+      },
+    )
+
     return reply.status(200).send({
-      user,
+      token,
     })
   } catch (error) {
     if (error instanceof Error) {

@@ -11,6 +11,8 @@ import { updatePetController } from './controllers/update.pets.controller'
 import { deletePetsController } from './controllers/delete.pets.controller'
 import { getPetController } from './controllers/get.pet.controller'
 import { authenticateController } from './controllers/authenticate.controller'
+import { profile } from './controllers/profile.controllers'
+import { verifyJWT } from './middlewares/verify.jwt'
 
 cloudinary.v2.config({
   cloud_name: env.CLOUDINARY_CLOUD_NAME,
@@ -45,6 +47,8 @@ export async function appRoutes(app: FastifyInstance) {
   )
 
   app.post('/organizations', registerOrganizationController)
+
+  app.get('/me', { onRequest: [verifyJWT] }, profile)
 
   app.get('/pets', getPetsController)
 

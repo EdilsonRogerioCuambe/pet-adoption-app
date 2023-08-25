@@ -8,6 +8,9 @@ export class PrismaUsersRepository implements UsersRepository {
       where: {
         id,
       },
+      include: {
+        organization: true,
+      },
     })
 
     return user
@@ -35,7 +38,11 @@ export class PrismaUsersRepository implements UsersRepository {
   }
 
   async findAll() {
-    const users = prisma.user.findMany()
+    const users = prisma.user.findMany({
+      include: {
+        organization: true,
+      },
+    })
 
     return users
   }

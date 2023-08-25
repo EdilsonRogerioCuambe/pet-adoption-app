@@ -8,6 +8,10 @@ export class PrismaPetsRepository implements PetsRepository {
       where: {
         size,
       },
+      include: {
+        user: true,
+        organization: true,
+      },
     })
 
     return pets
@@ -18,6 +22,10 @@ export class PrismaPetsRepository implements PetsRepository {
       where: {
         breed,
       },
+      include: {
+        user: true,
+        organization: true,
+      },
     })
 
     return pets
@@ -27,6 +35,10 @@ export class PrismaPetsRepository implements PetsRepository {
     const pets = await prisma.pet.findMany({
       where: {
         age,
+      },
+      include: {
+        user: true,
+        organization: true,
       },
     })
 
@@ -40,6 +52,10 @@ export class PrismaPetsRepository implements PetsRepository {
           contains: query,
           mode: 'insensitive',
         },
+      },
+      include: {
+        user: true,
+        organization: true,
       },
     })
 
@@ -55,7 +71,12 @@ export class PrismaPetsRepository implements PetsRepository {
   }
 
   async findAll() {
-    const pets = await prisma.pet.findMany()
+    const pets = await prisma.pet.findMany({
+      include: {
+        user: true,
+        organization: true,
+      },
+    })
 
     return pets
   }
@@ -64,6 +85,10 @@ export class PrismaPetsRepository implements PetsRepository {
     const pet = await prisma.pet.findUnique({
       where: {
         id,
+      },
+      include: {
+        user: true,
+        organization: true,
       },
     })
 

@@ -14,6 +14,10 @@ export class PrismaOrganizationsRepository implements OrganizationsRepository {
       where: {
         id,
       },
+      include: {
+        pets: true,
+        users: true,
+      },
     })
 
     return organization
@@ -31,6 +35,10 @@ export class PrismaOrganizationsRepository implements OrganizationsRepository {
     const organization = await prisma.organization.findFirst({
       where: {
         name,
+      },
+      include: {
+        pets: true,
+        users: true,
       },
     })
 

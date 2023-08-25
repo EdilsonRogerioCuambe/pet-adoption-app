@@ -2,7 +2,7 @@ import { Prisma, User } from '@prisma/client'
 import { UsersRepository } from '../users.repository'
 
 export class InMemoryUsersRepository implements UsersRepository {
-  findById(id: string): Promise<{
+  async findById(id: string): Promise<{
     id: string
     photo: string | null
     name: string
@@ -12,7 +12,7 @@ export class InMemoryUsersRepository implements UsersRepository {
   } | null> {
     const user = this.users.find((user) => user.id === id)
 
-    return Promise.resolve(user || null)
+    return user || null
   }
 
   delete(id: string): Promise<{
