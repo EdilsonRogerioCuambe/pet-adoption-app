@@ -1,21 +1,15 @@
 import { prisma } from '@/lib/prisma'
-import { Organization, Prisma } from '@prisma/client'
+import { Prisma } from '@prisma/client'
 import { OrganizationsRepository } from '../organizations.repository'
 
 export class PrismaOrganizationsRepository implements OrganizationsRepository {
-  async findAll(): Promise<Organization[]> {
+  async findAll() {
     const organizations = await prisma.organization.findMany()
 
     return organizations
   }
 
-  findById(id: string): Promise<{
-    id: string
-    photo: string | null
-    name: string
-    adress: string
-    whatsapp: string
-  } | null> {
+  findById(id: string) {
     const organization = prisma.organization.findFirst({
       where: {
         id,
@@ -25,13 +19,7 @@ export class PrismaOrganizationsRepository implements OrganizationsRepository {
     return organization
   }
 
-  async create(data: Prisma.OrganizationCreateInput): Promise<{
-    id: string
-    photo: string | null
-    name: string
-    adress: string
-    whatsapp: string
-  }> {
+  async create(data: Prisma.OrganizationCreateInput) {
     const organization = await prisma.organization.create({
       data,
     })
@@ -39,13 +27,7 @@ export class PrismaOrganizationsRepository implements OrganizationsRepository {
     return organization
   }
 
-  async findByName(name: string): Promise<{
-    id: string
-    photo: string | null
-    name: string
-    adress: string
-    whatsapp: string
-  } | null> {
+  async findByName(name: string) {
     const organization = await prisma.organization.findFirst({
       where: {
         name,
@@ -63,16 +45,7 @@ export class PrismaOrganizationsRepository implements OrganizationsRepository {
       : null
   }
 
-  async update(
-    id: string,
-    data: Prisma.OrganizationUpdateInput,
-  ): Promise<{
-    id: string
-    photo: string | null
-    name: string
-    adress: string
-    whatsapp: string
-  }> {
+  async update(id: string, data: Prisma.OrganizationUpdateInput) {
     const organization = await prisma.organization.update({
       where: {
         id,
@@ -83,13 +56,7 @@ export class PrismaOrganizationsRepository implements OrganizationsRepository {
     return organization
   }
 
-  async delete(id: string): Promise<{
-    id: string
-    photo: string | null
-    name: string
-    adress: string
-    whatsapp: string
-  }> {
+  async delete(id: string) {
     return await prisma.organization.delete({
       where: {
         id,

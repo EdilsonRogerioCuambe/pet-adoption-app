@@ -24,6 +24,10 @@ describe('Delete Organization Use Case', () => {
 
     const response = await organizationsRepository.findById(organization.id)
 
-    console.log(response)
+    expect(response).toBe(null)
+  })
+
+  it('should throw if organization does not exists', async () => {
+    await expect(sut.execute('invalid_id')).rejects.toThrow()
   })
 })

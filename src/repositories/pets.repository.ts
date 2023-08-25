@@ -6,6 +6,8 @@ export interface PetsRepository {
   findById(id: string): Promise<Pet | null>
   searchPetsByCity(query: string): Promise<Pet[]>
   searchPetsByAge(age: string): Promise<Pet[]>
+  searchPetsByBreed(breed: string): Promise<Pet[]>
+  searchPetsBySize(size: string): Promise<Pet[]>
   update(id: string, data: Prisma.PetUncheckedUpdateInput): Promise<Pet>
   delete(id: string): Promise<void>
 }

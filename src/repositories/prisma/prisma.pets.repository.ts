@@ -3,7 +3,27 @@ import { Prisma, Pet } from '@prisma/client'
 import { PetsRepository } from '../pets.repository'
 
 export class PrismaPetsRepository implements PetsRepository {
-  async searchPetsByAge(age: string): Promise<Pet[]> {
+  async searchPetsBySize(size: string) {
+    const pets = await prisma.pet.findMany({
+      where: {
+        size,
+      },
+    })
+
+    return pets
+  }
+
+  async searchPetsByBreed(breed: string) {
+    const pets = await prisma.pet.findMany({
+      where: {
+        breed,
+      },
+    })
+
+    return pets
+  }
+
+  async searchPetsByAge(age: string) {
     const pets = await prisma.pet.findMany({
       where: {
         age,
@@ -13,7 +33,7 @@ export class PrismaPetsRepository implements PetsRepository {
     return pets
   }
 
-  async searchPetsByCity(query: string): Promise<Pet[]> {
+  async searchPetsByCity(query: string) {
     const pets = await prisma.pet.findMany({
       where: {
         city: {
@@ -26,7 +46,7 @@ export class PrismaPetsRepository implements PetsRepository {
     return pets
   }
 
-  async create(data: Prisma.PetUncheckedCreateInput): Promise<Pet> {
+  async create(data: Prisma.PetUncheckedCreateInput) {
     const pet = await prisma.pet.create({
       data,
     })
@@ -34,13 +54,13 @@ export class PrismaPetsRepository implements PetsRepository {
     return pet
   }
 
-  async findAll(): Promise<Pet[]> {
+  async findAll() {
     const pets = await prisma.pet.findMany()
 
     return pets
   }
 
-  async findById(id: string): Promise<Pet | null> {
+  async findById(id: string) {
     const pet = await prisma.pet.findUnique({
       where: {
         id,
@@ -50,7 +70,7 @@ export class PrismaPetsRepository implements PetsRepository {
     return pet
   }
 
-  async update(id: string, data: Prisma.PetUpdateInput): Promise<Pet> {
+  async update(id: string, data: Prisma.PetUpdateInput) {
     const pet = await prisma.pet.update({
       where: {
         id,
@@ -61,7 +81,7 @@ export class PrismaPetsRepository implements PetsRepository {
     return pet
   }
 
-  async delete(id: string): Promise<void> {
+  async delete(id: string) {
     await prisma.pet.delete({
       where: {
         id,

@@ -2,6 +2,44 @@ import { Prisma, Pet } from '@prisma/client'
 import { PetsRepository } from '../pets.repository'
 
 export class InMemoryPetsRepository implements PetsRepository {
+  async searchPetsBySize(size: string): Promise<
+    {
+      id: string
+      name: string
+      age: string
+      breed: string
+      size: string
+      description: string
+      city: string | null
+      images: string[]
+      organizationId: string
+      userId: string
+    }[]
+  > {
+    const pets = this.pets.filter((pet) => pet.size === size)
+
+    return Promise.resolve(pets)
+  }
+
+  async searchPetsByBreed(breed: string): Promise<
+    {
+      id: string
+      name: string
+      age: string
+      breed: string
+      size: string
+      description: string
+      city: string | null
+      images: string[]
+      organizationId: string
+      userId: string
+    }[]
+  > {
+    const pets = this.pets.filter((pet) => pet.breed === breed)
+
+    return Promise.resolve(pets)
+  }
+
   async searchPetsByAge(age: string): Promise<
     {
       id: string
