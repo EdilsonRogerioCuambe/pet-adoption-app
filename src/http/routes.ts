@@ -13,6 +13,8 @@ import { getPetController } from './controllers/get.pet.controller'
 import { authenticateController } from './controllers/authenticate.controller'
 import { profile } from './controllers/profile.controllers'
 import { verifyJWT } from './middlewares/verify.jwt'
+import { getUsersController } from './controllers/get.users.controller'
+import { updateUserController } from './controllers/update.user.controller'
 
 cloudinary.v2.config({
   cloud_name: env.CLOUDINARY_CLOUD_NAME,
@@ -42,23 +44,35 @@ export async function appRoutes(app: FastifyInstance) {
 
   app.post(
     '/pets',
-    { preHandler: upload.array('images') },
+    { preHandler: upload.array('images'), onRequest: [verifyJWT] },
     registerPetController,
   )
 
-  app.post('/organizations', registerOrganizationController)
+  app.post(
+    '/organizations',
+    { onRequest: [verifyJWT], preHandler: upload.single('photo') },
+    registerOrganizationController,
+  )
+
+  app.get('/users', { onRequest: [verifyJWT] }, getUsersController)
 
   app.get('/me', { onRequest: [verifyJWT] }, profile)
 
-  app.get('/pets', getPetsController)
+  app.get('/pets', { onRequest: [verifyJWT] }, getPetsController)
 
-  app.get('/pets/:id', getPetController)
+  app.get('/pets/:id', { onRequest: [verifyJWT] }, getPetController)
 
   app.put(
     '/pets/:id',
-    { preHandler: upload.array('images') },
+    { preHandler: upload.array('images'), onRequest: [verifyJWT] },
     updatePetController,
   )
 
-  app.delete('/pets/:id', deletePetsController)
+  app.put(
+    '/users/:id',
+    { preHandler: upload.single('photo'), onRequest: [verifyJWT] },
+    updateUserController,
+  )
+
+  app.delete('/pets/:id', { onRequest: [verifyJWT] }, deletePetsController)
 }

@@ -9,7 +9,12 @@ export async function authenticateController(
 ) {
   const authenticateUserSchema = z.object({
     email: z.string().email().toLowerCase(),
-    password: z.string().min(6),
+    password: z
+      .string()
+      .min(6)
+      .regex(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/, // At least one lowercase letter, one uppercase letter, one number and one special character
+      ),
   })
 
   const { email, password } = authenticateUserSchema.parse(request.body)

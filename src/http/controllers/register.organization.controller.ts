@@ -21,12 +21,12 @@ export async function registerOrganizationController(
   try {
     const registerOrganizationUseCase = makeRegisterOrganizationUseCase()
 
-    await registerOrganizationUseCase.execute({
+    const org = await registerOrganizationUseCase.execute({
       name,
       adress,
       whatsapp: whatsappAdress,
     })
-    return reply.status(201).send()
+    return reply.status(201).send(org)
   } catch (error) {
     if (error instanceof Error) {
       return reply.status(409).send({

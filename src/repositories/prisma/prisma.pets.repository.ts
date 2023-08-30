@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma'
-import { Prisma, Pet } from '@prisma/client'
+import { Prisma } from '@prisma/client'
 import { PetsRepository } from '../pets.repository'
 
 export class PrismaPetsRepository implements PetsRepository {
@@ -95,7 +95,7 @@ export class PrismaPetsRepository implements PetsRepository {
     return pet
   }
 
-  async update(id: string, data: Prisma.PetUpdateInput) {
+  async update(id: string, data: Prisma.PetUncheckedUpdateInput) {
     const pet = await prisma.pet.update({
       where: {
         id,

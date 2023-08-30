@@ -17,13 +17,13 @@ export async function updatePetController(
     breed: z.string().optional(),
     size: z.string().optional(),
     description: z.string().optional(),
+    city: z.string().optional(),
   })
 
   const images: string[] = []
 
-  const { id, name, age, breed, size, description } = updatePetSchema.parse(
-    request.body,
-  )
+  const { id, name, age, breed, size, description, city } =
+    updatePetSchema.parse(request.body)
 
   if (request.files && typeof request.files === 'object') {
     for (const file of request.files as unknown as MultipartFile[]) {
@@ -40,10 +40,11 @@ export async function updatePetController(
       age,
       breed,
       size,
+      city,
       description,
-      images: images.length > 0 ? [...images] : undefined,
+      images,
     })
-    return reply.status(201).send()
+    return reply.status(204).send()
   } catch (error) {
     if (error instanceof Error) {
       return reply.status(409).send({

@@ -9,6 +9,7 @@ interface UpdatePetUseCaseProps {
   size?: string
   description?: string
   images?: string[]
+  city?: string
 }
 
 export class UpdatePetUseCase {
@@ -22,6 +23,7 @@ export class UpdatePetUseCase {
     size,
     description,
     images,
+    city,
   }: UpdatePetUseCaseProps): Promise<Pet> {
     const pet = await this.petsRepository.update(id, {
       id,
@@ -31,6 +33,7 @@ export class UpdatePetUseCase {
       size,
       description,
       images,
+      city,
     })
 
     return pet

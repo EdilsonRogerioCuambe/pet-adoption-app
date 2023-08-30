@@ -22,21 +22,19 @@ export async function registerUserController(
     request.body,
   )
 
-  const normalizedOrganizationId = organizationId || ''
-
   const { path: photo } = request.file as unknown as MultipartFile
 
   try {
     const registerUseCase = makeRegisterUserUseCase()
 
-    await registerUseCase.execute({
+    const user = await registerUseCase.execute({
       name,
       email,
       password,
       photo,
-      organizationId: normalizedOrganizationId,
+      organizationId: organizationId || undefined,
     })
-    return reply.status(201).send()
+    return reply.status(201).send(user)
   } catch (error) {
     if (error instanceof UserAlreadyExistsError) {
       return reply.status(409).send({
