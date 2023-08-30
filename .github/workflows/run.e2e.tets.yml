@@ -28,8 +28,8 @@ jobs:
 
       - run: npm run test:e2e
         env:
-          DATABASE_URL: "postgresql://docker:docker@localhost:5432/pet-adoption-api?schema=public"
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
           CLOUDINARY_CLOUD_NAME: ${{ secrets.CLOUDINARY_CLOUD_NAME }}
           CLOUDINARY_API_KEY: ${{ secrets.CLOUDINARY_API_KEY }}
           CLOUDINARY_API_SECRET: ${{ secrets.CLOUDINARY_API_SECRET }}
-          JWT_SECRET: testing
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
