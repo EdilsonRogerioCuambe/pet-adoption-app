@@ -51,6 +51,7 @@
     "vitest": "0.33.0"
   },
   "dependencies": {
+    "@fastify/cookie": "9.0.4",
     "@fastify/jwt": "7.2.0",
     "@fastify/multipart": "6.0.1",
     "@prisma/client": "5.1.1",

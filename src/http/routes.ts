@@ -15,6 +15,7 @@ import { profile } from './controllers/profile.controllers'
 import { verifyJWT } from './middlewares/verify.jwt'
 import { getUsersController } from './controllers/get.users.controller'
 import { updateUserController } from './controllers/update.user.controller'
+import { refresh } from './controllers/refresh'
 
 cloudinary.v2.config({
   cloud_name: env.CLOUDINARY_CLOUD_NAME,
@@ -35,6 +36,8 @@ const upload = multer({
 
 export async function appRoutes(app: FastifyInstance) {
   app.post('/sessions', authenticateController)
+
+  app.patch('/refresh/token', refresh)
 
   app.post(
     '/users',
