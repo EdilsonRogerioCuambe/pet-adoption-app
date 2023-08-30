@@ -23,9 +23,13 @@
     "type": "git",
     "url": "git+https://github.com/EdilsonRogerioCuambe/pet-adoption-app.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "pet",
+    "adoption",
+    "app"
+  ],
+  "author": "Edilson Rogerio Cuambe <",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/EdilsonRogerioCuambe/pet-adoption-app/issues"
   },
