@@ -10,9 +10,10 @@ export async function registerOrganizationController(
     name: z.string(),
     adress: z.string(),
     whatsapp: z.string(),
+    photo: z.string().optional(),
   })
 
-  const { name, adress, whatsapp } = registerOrganizationSchema.parse(
+  const { name, adress, whatsapp, photo } = registerOrganizationSchema.parse(
     request.body,
   )
 
@@ -25,6 +26,7 @@ export async function registerOrganizationController(
       name,
       adress,
       whatsapp: whatsappAdress,
+      photo,
     })
     return reply.status(201).send(org)
   } catch (error) {
