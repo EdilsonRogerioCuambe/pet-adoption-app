@@ -30,3 +30,6 @@ jobs:
         env:
           JWT_SECRET: testing
           DATABASE_URL: "postgresql://docker:docker@localhost:5432/pet-adoption-api?schema=public"
+          CLOUDINARY_CLOUD_NAME: dlklcvuca
+          CLOUDINARY_API_KEY: 831176368514898
+          CLOUDINARY_API_SECRET: UV29cypsNH8mW2wmIHCEdHreWkU
