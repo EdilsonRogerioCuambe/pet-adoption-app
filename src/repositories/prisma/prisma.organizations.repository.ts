@@ -23,7 +23,7 @@ export class PrismaOrganizationsRepository implements OrganizationsRepository {
     return organization
   }
 
-  async create(data: Prisma.OrganizationCreateInput) {
+  async create(data: Prisma.OrganizationUncheckedCreateInput) {
     const organization = await prisma.organization.create({
       data,
     })
@@ -43,17 +43,9 @@ export class PrismaOrganizationsRepository implements OrganizationsRepository {
     })
 
     return organization
-      ? {
-          id: organization.id,
-          photo: organization.photo,
-          name: organization.name,
-          adress: organization.adress,
-          whatsapp: organization.whatsapp,
-        }
-      : null
   }
 
-  async update(id: string, data: Prisma.OrganizationUpdateInput) {
+  async update(id: string, data: Prisma.OrganizationUncheckedUpdateInput) {
     const organization = await prisma.organization.update({
       where: {
         id,
