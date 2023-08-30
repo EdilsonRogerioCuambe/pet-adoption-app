@@ -25,6 +25,7 @@ describe('Register Controller', () => {
       email: 'user@gmail.com',
       password: '@user17D',
       organizationId: organization.body.id,
+      role: 'ADMIN',
     })
 
     expect(response.statusCode).toBe(201)

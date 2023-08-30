@@ -1,8 +1,8 @@
-import { afterAll, beforeAll, it, describe, expect } from 'vitest'
-import supertest from 'supertest'
 import { app } from '@/app'
+import request from 'supertest'
+import { it, describe, expect, afterAll, beforeAll } from 'vitest'
 
-describe('Register Pets Controller', () => {
+describe('Get Pet Controller', () => {
   beforeAll(async () => {
     await app.ready()
   })
@@ -11,43 +11,47 @@ describe('Register Pets Controller', () => {
     await app.close()
   })
 
-  it('should return 201 when register a pet', async () => {
-    const user = await supertest(app.server).post('/users').send({
-      id: 'user_id_1',
+  it('should get a pet', async () => {
+    const user = await request(app.server).post('/users').send({
       name: 'User',
       email: 'user@gmail.com',
       password: '@User1710',
+      role: 'ADMIN',
     })
 
-    const authUser = await supertest(app.server).post('/sessions').send({
+    const authUser = await request(app.server).post('/sessions').send({
       email: 'user@gmail.com',
       password: '@User1710',
     })
 
     const token = authUser.body.token
 
-    const org = await supertest(app.server)
+    const org = await request(app.server)
       .post('/organizations')
       .set('Authorization', `Bearer ${token}`)
       .send({
-        id: 'organization_id_1',
         name: 'Organization',
         whatsapp: '123456789',
         adress: 'Adress',
       })
 
-    await supertest(app.server)
-      .put(`/users/user_id_1`)
+    await request(app.server)
+      .put(`/users/${user.body.user.id}`)
       .set('Authorization', `Bearer ${token}`)
       .send({
-        id: 'user_id_1',
+        id: user.body.user.id,
         name: 'User',
         email: 'user@gmail.com',
-        password: '@User1710',
-        organizationId: 'organization_id_1',
+        passsword: '@User1710',
+        organizationId: org.body.id,
       })
 
-    const response = await supertest(app.server)
+    const me = await request(app.server)
+      .get('/me')
+      .set('Authorization', `Bearer ${token}`)
+      .send()
+
+    const pet = await request(app.server)
       .post('/pets')
       .set('Authorization', `Bearer ${token}`)
       .field('name', 'Pet')
@@ -57,9 +61,14 @@ describe('Register Pets Controller', () => {
       .field('description', 'Description')
       .field('city', 'City')
       .field('organizationId', org.body.id)
-      .field('userId', user.body.user.id)
+      .field('userId', me.body.id)
       .attach('images', 'src/http/controllers/__tests__/assets/dog.jpg')
 
-    expect(response.statusCode).toBe(201)
+    const response = await request(app.server)
+      .get(`/pets/${pet.body.pet.id}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send()
+
+    expect(response.statusCode).toBe(200)
   }, 20000)
 })

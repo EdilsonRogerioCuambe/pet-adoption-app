@@ -8,6 +8,7 @@ interface UpdateUserUseCaseProps {
   password?: string
   photo?: string
   organizationId?: string
+  role?: 'ADMIN' | 'MEMBER'
 }
 
 export class UpdateUserUseCase {
@@ -20,6 +21,7 @@ export class UpdateUserUseCase {
     password,
     photo,
     organizationId,
+    role,
   }: UpdateUserUseCaseProps): Promise<User> {
     const user = await this.usersRepository.update(id, {
       id,
@@ -28,6 +30,7 @@ export class UpdateUserUseCase {
       password,
       photo,
       organizationId,
+      role: role || 'MEMBER',
     })
 
     return user

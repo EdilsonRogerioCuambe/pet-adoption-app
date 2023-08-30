@@ -16,6 +16,7 @@ describe('Update Pet Controller', () => {
       name: 'User',
       email: 'user@gmail.com',
       password: '@User1710',
+      role: 'ADMIN',
     })
 
     const authUser = await request(app.server).post('/sessions').send({

@@ -14,11 +14,11 @@ export async function updateUserController(
     email: z.string().optional(),
     password: z.string().optional(),
     organizationId: z.string().optional(),
+    role: z.enum(['ADMIN', 'MEMBER']).optional(),
   })
 
-  const { id, name, email, password, organizationId } = updateUserSchema.parse(
-    request.body,
-  )
+  const { id, name, email, password, organizationId, role } =
+    updateUserSchema.parse(request.body)
 
   try {
     const updateUserUseCase = makeUpdateUserUseCase()
@@ -29,6 +29,7 @@ export async function updateUserController(
       email,
       password,
       organizationId,
+      role: role || 'MEMBER',
     })
     return reply.status(204).send()
   } catch (error) {

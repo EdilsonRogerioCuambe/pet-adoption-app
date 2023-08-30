@@ -1,8 +1,8 @@
-import { test, expect, describe, beforeAll, afterAll } from 'vitest'
 import { app } from '@/app'
+import { it, describe, expect, afterAll, beforeAll } from 'vitest'
 import request from 'supertest'
 
-describe('Authenticate Controller', () => {
+describe('Refresh Token', () => {
   beforeAll(async () => {
     await app.ready()
   })
@@ -11,12 +11,13 @@ describe('Authenticate Controller', () => {
     await app.close()
   })
 
-  test('should return 200 when authenticate with valid credentials', async () => {
+  it('should be able to refresh token', async () => {
     await request(app.server).post('/users').send({
       id: '1',
       name: 'User',
       email: 'user@gmail.com',
       password: '@user17D',
+      role: 'ADMIN',
     })
 
     const response = await request(app.server).post('/sessions').send({
@@ -24,7 +25,14 @@ describe('Authenticate Controller', () => {
       password: '@user17D',
     })
 
-    expect(response.statusCode).toBe(200)
-    expect(response.body).toHaveProperty('token')
+    const refreshToken = response.get('Set-Cookie')
+
+    const refreshResponse = await request(app.server)
+      .patch('/refresh/token')
+      .set('Cookie', refreshToken)
+      .send()
+
+    expect(refreshResponse.status).toBe(200)
+    expect(refreshResponse.body).toHaveProperty('token')
   })
 })

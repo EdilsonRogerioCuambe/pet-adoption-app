@@ -17,6 +17,7 @@ describe('Register Organization Controller', () => {
       name: 'John Doe',
       email: 'johndoe@gmail.com',
       password: '@JohnDoe123',
+      role: 'ADMIN',
     })
 
     const authUser = await supertest(app.server).post('/sessions').send({

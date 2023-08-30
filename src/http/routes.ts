@@ -1,21 +1,22 @@
 import { FastifyInstance } from 'fastify'
 import multer from 'fastify-multer'
 import { CloudinaryStorage } from 'multer-storage-cloudinary'
-import { registerUserController } from './controllers/register.user.controller'
+import { registerUserController } from './controllers/user/register.user.controller'
 import cloudinary from 'cloudinary'
 import { env } from '@/env'
-import { registerPetController } from './controllers/register.pets.controller'
-import { registerOrganizationController } from './controllers/register.organization.controller'
-import { getPetsController } from './controllers/get.pets.controller'
-import { updatePetController } from './controllers/update.pets.controller'
-import { deletePetsController } from './controllers/delete.pets.controller'
-import { getPetController } from './controllers/get.pet.controller'
-import { authenticateController } from './controllers/authenticate.controller'
-import { profile } from './controllers/profile.controllers'
+import { registerPetController } from './controllers/pet/register.pets.controller'
+import { registerOrganizationController } from './controllers/oganization/register.organization.controller'
+import { getPetsController } from './controllers/pet/get.pets.controller'
+import { updatePetController } from './controllers/pet/update.pets.controller'
+import { deletePetsController } from './controllers/pet/delete.pets.controller'
+import { getPetController } from './controllers/pet/get.pet.controller'
+import { authenticateController } from './controllers/user/authenticate.controller'
+import { profile } from './controllers/user/profile.controllers'
 import { verifyJWT } from './middlewares/verify.jwt'
-import { getUsersController } from './controllers/get.users.controller'
-import { updateUserController } from './controllers/update.user.controller'
-import { refresh } from './controllers/refresh'
+import { getUsersController } from './controllers/user/get.users.controller'
+import { updateUserController } from './controllers/user/update.user.controller'
+import { refresh } from './controllers/user/refresh'
+import { verifyUserRole } from './middlewares/verify.user.role'
 
 cloudinary.v2.config({
   cloud_name: env.CLOUDINARY_CLOUD_NAME,
@@ -53,7 +54,10 @@ export async function appRoutes(app: FastifyInstance) {
 
   app.post(
     '/organizations',
-    { onRequest: [verifyJWT], preHandler: upload.single('photo') },
+    {
+      onRequest: [verifyJWT, verifyUserRole('ADMIN')],
+      preHandler: upload.single('photo'),
+    },
     registerOrganizationController,
   )
 

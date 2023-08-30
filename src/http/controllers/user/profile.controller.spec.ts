@@ -17,6 +17,7 @@ describe('Profile Controller', () => {
       .field('name', 'John Doe')
       .field('email', 'john@gmail.com')
       .field('password', '@JohnDoe123')
+      .field('role', 'ADMIN')
 
     const response = await supertest(app.server).post('/sessions').send({
       email: 'john@gmail.com',

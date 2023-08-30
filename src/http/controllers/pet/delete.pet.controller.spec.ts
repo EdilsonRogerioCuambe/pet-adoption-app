@@ -1,8 +1,8 @@
 import { app } from '@/app'
-import { it, describe, expect, beforeAll, afterAll } from 'vitest'
+import { it, describe, afterAll, beforeAll, expect } from 'vitest'
 import request from 'supertest'
 
-describe('Get Pets Controllers', () => {
+describe('Delete Pet Controller', () => {
   beforeAll(async () => {
     await app.ready()
   })
@@ -11,11 +11,12 @@ describe('Get Pets Controllers', () => {
     await app.close()
   })
 
-  it('should get all pets', async () => {
+  it('should return 204 when delete pet', async () => {
     const user = await request(app.server).post('/users').send({
       name: 'User',
       email: 'user@gmail.com',
       password: '@User1710',
+      role: 'ADMIN',
     })
 
     const authUser = await request(app.server).post('/sessions').send({
@@ -41,8 +42,8 @@ describe('Get Pets Controllers', () => {
         id: user.body.user.id,
         name: 'User',
         email: 'user@gmail.com',
-        passsword: '@User1710',
         organizationId: org.body.id,
+        password: '@User1710',
       })
 
     const me = await request(app.server)
@@ -50,7 +51,7 @@ describe('Get Pets Controllers', () => {
       .set('Authorization', `Bearer ${token}`)
       .send()
 
-    await request(app.server)
+    const pet = await request(app.server)
       .post('/pets')
       .set('Authorization', `Bearer ${token}`)
       .field('name', 'Pet')
@@ -63,24 +64,16 @@ describe('Get Pets Controllers', () => {
       .field('userId', me.body.id)
       .attach('images', 'src/http/controllers/__tests__/assets/dog.jpg')
 
-    await request(app.server)
-      .post('/pets')
-      .set('Authorization', `Bearer ${token}`)
-      .field('name', 'Thor')
-      .field('age', '6')
-      .field('breed', 'second pet')
-      .field('size', 'big')
-      .field('description', 'Second description')
-      .field('city', 'City')
-      .field('organizationId', org.body.id)
-      .field('userId', me.body.id)
-      .attach('images', 'src/http/controllers/__tests__/assets/dog.jpg')
-
-    const getPets = await request(app.server)
-      .get('/pets')
+    const getPet = await request(app.server)
+      .get(`/pets/${pet.body.pet.id}`)
       .set('Authorization', `Bearer ${token}`)
       .send()
 
-    expect(getPets.statusCode).toBe(200)
+    const response = await request(app.server)
+      .delete(`/pets/${getPet.body.pet.id}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send()
+
+    expect(response.statusCode).toBe(204)
   }, 20000)
 })

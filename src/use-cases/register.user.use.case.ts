@@ -10,6 +10,7 @@ interface RegisterUserUseCaseProps {
   password: string
   photo?: string
   organizationId?: string
+  role: 'ADMIN' | 'MEMBER'
 }
 
 interface RegisterUserUseCaseResponse {
@@ -26,6 +27,7 @@ export class RegisterUseCase {
     password,
     photo,
     organizationId,
+    role,
   }: RegisterUserUseCaseProps): Promise<RegisterUserUseCaseResponse> {
     const hashedPassword = await hash(password, 10)
 
@@ -42,6 +44,7 @@ export class RegisterUseCase {
       password: hashedPassword,
       photo,
       organizationId,
+      role: role || 'MEMBER',
     })
 
     return {
