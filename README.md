@@ -15,7 +15,6 @@ Este é o README para a aplicação de adoção de animais de estimação. Atrav
 - [x] Login para Organizações (ORG)
 - [x] Listagem de Animais Cadastrados por uma Organização (ORG)
 - [x] Listagem de Animais Adotados por uma Organização (ORG)
-- [x] Listagem de Animais Disponíveis para Adoção por uma Organização (ORG)
 
 ## Regras de Negócio
 
@@ -25,6 +24,8 @@ Este é o README para a aplicação de adoção de animais de estimação. Atrav
 - [x] Usuários interessados em adotar um animal entrarão em contato com a organização (ORG) via WhatsApp
 - [x] Todos os filtros, exceto a cidade, são opcionais
 - [x] Para que uma organização (ORG) acesse a aplicação como administrador, ela precisa estar logada
+- [x] Apenas administradores podem cadastrar, atualizar e excluir animais
+- [x] Os dados de um animal só podem ser atualizados pelo administrador que o cadastrou
 
 ## Informações do Projeto
 
