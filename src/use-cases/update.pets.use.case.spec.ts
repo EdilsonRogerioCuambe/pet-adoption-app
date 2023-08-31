@@ -22,6 +22,8 @@ describe('Update pet use case', () => {
       images: ['any_image_url'],
       organizationId: 'any_organization_id',
       userId: 'any_user_id',
+      adopted: false,
+      city: 'any_city',
     })
 
     const updatedPet = await sut.execute({
@@ -32,6 +34,8 @@ describe('Update pet use case', () => {
       size: 'updated_size',
       description: 'updated_description',
       images: ['updated_image_url'],
+      city: 'updated_city',
+      adopted: true,
     })
 
     expect(updatedPet).toEqual(
@@ -43,6 +47,8 @@ describe('Update pet use case', () => {
         size: 'updated_size',
         description: 'updated_description',
         images: ['updated_image_url'],
+        city: 'updated_city',
+        adopted: true,
       }),
     )
   })

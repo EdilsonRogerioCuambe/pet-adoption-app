@@ -19,6 +19,7 @@ describe('Get User Use Case', () => {
       id: '123',
       organizationId: null,
       photo: 'photo',
+      role: 'MEMBER',
     })
 
     const result = await sut.execute(user.id)

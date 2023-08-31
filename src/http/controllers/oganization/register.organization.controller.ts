@@ -8,14 +8,16 @@ export async function registerOrganizationController(
 ) {
   const registerOrganizationSchema = z.object({
     name: z.string(),
-    adress: z.string(),
+    address: z.string(),
     whatsapp: z.string(),
     photo: z.string().optional(),
+    email: z.string().email(),
+    password: z.string(),
+    role: z.enum(['ADMIN', 'MEMBER']),
   })
 
-  const { name, adress, whatsapp, photo } = registerOrganizationSchema.parse(
-    request.body,
-  )
+  const { name, address, whatsapp, photo, role, email, password } =
+    registerOrganizationSchema.parse(request.body)
 
   const whatsappAdress = `https://api.whatsapp.com/send?phone=${whatsapp}`
 
@@ -24,9 +26,12 @@ export async function registerOrganizationController(
 
     const org = await registerOrganizationUseCase.execute({
       name,
-      adress,
+      address,
       whatsapp: whatsappAdress,
       photo,
+      role,
+      email,
+      password,
     })
     return reply.status(201).send(org)
   } catch (error) {

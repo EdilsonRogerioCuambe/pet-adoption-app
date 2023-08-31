@@ -14,6 +14,8 @@ Este é o README para a aplicação de adoção de animais de estimação. Atrav
 - [x] Cadastro de Organizações (ORG)
 - [x] Login para Organizações (ORG)
 - [x] Listagem de Animais Cadastrados por uma Organização (ORG)
+- [x] Listagem de Animais Adotados por uma Organização (ORG)
+- [x] Listagem de Animais Disponíveis para Adoção por uma Organização (ORG)
 
 ## Regras de Negócio
 

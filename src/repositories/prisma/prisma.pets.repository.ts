@@ -101,6 +101,10 @@ export class PrismaPetsRepository implements PetsRepository {
         id,
       },
       data,
+      include: {
+        user: true,
+        organization: true,
+      },
     })
 
     return pet

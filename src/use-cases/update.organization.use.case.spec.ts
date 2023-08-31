@@ -14,17 +14,24 @@ describe('Update organization use case', () => {
   it('should be able to update a organization', async () => {
     const organization = await organizationsRepository.create({
       id: 'any_id',
-      name: 'any_name',
-      whatsapp: 'any_whatsapp',
-      adress: 'any_adress',
-      photo: 'any_photo_url',
+      name: 'Organization Name',
+      address: 'Organization Adress',
+      whatsapp: 'Organization Whatsapp',
+      email: 'Organization@gmail.com',
+      password: 'Organization@123Password',
+      role: 'ADMIN',
+      photo: 'Organization Photo',
     })
 
     const updatedOrganization = await sut.execute({
       id: organization.id,
       name: 'updated_name',
+      address: 'updated_adress',
       whatsapp: 'updated_whatsapp',
-      adress: 'updated_adress',
+      email: 'updated_email',
+      password: 'updated_password',
+      role: 'ADMIN',
+      photo: 'updated_photo',
     })
 
     expect(updatedOrganization).toEqual(
@@ -32,7 +39,11 @@ describe('Update organization use case', () => {
         id: organization.id,
         name: 'updated_name',
         whatsapp: 'updated_whatsapp',
-        adress: 'updated_adress',
+        address: 'updated_adress',
+        photo: 'updated_photo',
+        email: 'updated_email',
+        password: 'updated_password',
+        role: 'ADMIN',
       }),
     )
   })

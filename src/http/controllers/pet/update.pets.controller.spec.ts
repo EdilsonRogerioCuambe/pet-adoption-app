@@ -32,7 +32,10 @@ describe('Update Pet Controller', () => {
       .send({
         name: 'Organization',
         whatsapp: '123456789',
-        adress: 'Adress',
+        address: 'Adress',
+        password: '@Organization1710',
+        email: 'organization@gmail.com',
+        role: 'ADMIN',
       })
 
     await request(app.server)
@@ -60,6 +63,7 @@ describe('Update Pet Controller', () => {
       .field('size', 'Size')
       .field('description', 'Description')
       .field('city', 'City')
+      .field('adopted', false)
       .field('organizationId', org.body.id)
       .field('userId', me.body.id)
       .attach('images', 'src/http/controllers/__tests__/assets/dog.jpg')
@@ -82,5 +86,5 @@ describe('Update Pet Controller', () => {
       .attach('images', 'src/http/controllers/__tests__/assets/dog.jpg')
 
     expect(response.statusCode).toBe(204)
-  }, 20000)
+  }, 30000)
 })

@@ -2,7 +2,7 @@ import { app } from '@/app'
 import { it, describe, afterAll, beforeAll, expect } from 'vitest'
 import request from 'supertest'
 
-describe('Register Organization Controller', () => {
+describe('Get Organization Controller', () => {
   beforeAll(async () => {
     await app.ready()
   })
@@ -32,9 +32,12 @@ describe('Register Organization Controller', () => {
       .set('Authorization', `Bearer ${token}`)
       .send({
         id: 'organization_id_1',
-        name: 'Fake Organization',
+        name: 'Organization',
         whatsapp: '123456789',
-        adress: 'Fake Street',
+        address: 'Adress',
+        password: '@Organization1710',
+        email: 'organization@gmail.com',
+        role: 'ADMIN',
       })
 
     const response = await request(app.server)

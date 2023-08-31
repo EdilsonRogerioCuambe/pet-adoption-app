@@ -23,6 +23,7 @@ describe('Search Pets By Age Use Case', () => {
       size: 'any_size',
       userId: 'any_user_id',
       images: ['any_image'],
+      adopted: false,
     })
 
     const response = await sut.execute({ age: '12' })

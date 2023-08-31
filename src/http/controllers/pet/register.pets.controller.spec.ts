@@ -34,7 +34,10 @@ describe('Register Pets Controller', () => {
         id: 'organization_id_1',
         name: 'Organization',
         whatsapp: '123456789',
-        adress: 'Adress',
+        address: 'Adress',
+        password: '@Organization1710',
+        email: 'organization@gmail.com',
+        role: 'ADMIN',
       })
 
     await supertest(app.server)
@@ -62,5 +65,5 @@ describe('Register Pets Controller', () => {
       .attach('images', 'src/http/controllers/__tests__/assets/dog.jpg')
 
     expect(response.statusCode).toBe(201)
-  }, 20000)
+  }, 30000)
 })

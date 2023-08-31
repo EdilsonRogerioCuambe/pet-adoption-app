@@ -16,16 +16,20 @@ describe('Get Organizations Use Case', () => {
       id: 'first',
       name: 'first',
       photo: 'first',
-      adress: 'first',
+      address: 'first',
       whatsapp: 'first',
+      password: 'first',
+      email: 'first',
     })
 
     const second = await organizationsRepository.create({
       id: 'second',
       name: 'second',
       photo: 'second',
-      adress: 'second',
+      address: 'second',
       whatsapp: 'second',
+      password: 'second',
+      email: 'second',
     })
 
     const response = await sut.execute()

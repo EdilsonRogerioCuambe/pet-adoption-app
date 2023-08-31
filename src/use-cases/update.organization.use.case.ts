@@ -5,8 +5,11 @@ interface UpdateOrganizationUseCaseProps {
   id: string
   name?: string
   whatsapp?: string
-  adress?: string
+  address?: string
   photo?: string
+  email: string
+  password: string
+  role: 'ADMIN' | 'MEMBER'
 }
 
 export class UpdateOrganizationUseCase {
@@ -16,15 +19,21 @@ export class UpdateOrganizationUseCase {
     id,
     name,
     whatsapp,
-    adress,
+    address,
     photo,
+    email,
+    password,
+    role,
   }: UpdateOrganizationUseCaseProps): Promise<Organization> {
     const organization = await this.organizationsRepository.update(id, {
       id,
       name,
       whatsapp,
-      adress,
+      address,
       photo,
+      email,
+      password,
+      role,
     })
 
     return organization

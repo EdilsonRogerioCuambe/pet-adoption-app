@@ -1,28 +1,14 @@
-import { Prisma, User } from '@prisma/client'
+import { Prisma, Role, User } from '@prisma/client'
 import { UsersRepository } from '../users.repository'
 
 export class InMemoryUsersRepository implements UsersRepository {
-  async findById(id: string): Promise<{
-    id: string
-    photo: string | null
-    name: string
-    email: string
-    password: string
-    organizationId: string | null
-  } | null> {
+  async findById(id: string): Promise<User | null> {
     const user = this.users.find((user) => user.id === id)
 
     return user || null
   }
 
-  delete(id: string): Promise<{
-    id: string
-    photo: string | null
-    name: string
-    email: string
-    password: string
-    organizationId: string | null
-  }> {
+  async delete(id: string): Promise<User> {
     const user = this.users.find((user) => user.id === id)
 
     if (!user) {
@@ -37,14 +23,7 @@ export class InMemoryUsersRepository implements UsersRepository {
   async update(
     id: string,
     data: Prisma.UserUncheckedUpdateInput,
-  ): Promise<{
-    id: string
-    photo: string | null
-    name: string
-    email: string
-    password: string
-    organizationId: string | null
-  }> {
+  ): Promise<User> {
     const user = this.users.find((user) => user.id === id)
 
     if (!user) {
@@ -60,6 +39,7 @@ export class InMemoryUsersRepository implements UsersRepository {
       password: data.password as string,
       organizationId: data.organizationId as string | null,
       photo: data.photo as string | null,
+      role: data.role as Role,
     }
 
     this.users = this.users.map((user) => (user.id === id ? updatedUser : user))
@@ -69,16 +49,7 @@ export class InMemoryUsersRepository implements UsersRepository {
 
   private users: User[] = []
 
-  findAll(): Promise<
-    {
-      id: string
-      photo: string | null
-      name: string
-      email: string
-      password: string
-      organizationId: string | null
-    }[]
-  > {
+  findAll(): Promise<User[]> {
     const users = this.users.map((user) => ({
       id: user.id,
       photo: user.photo,
@@ -86,18 +57,12 @@ export class InMemoryUsersRepository implements UsersRepository {
       email: user.email,
       password: user.password,
       organizationId: user.organizationId,
+      role: user.role,
     }))
     return Promise.resolve(users)
   }
 
-  async create(data: Prisma.UserUncheckedCreateInput): Promise<{
-    id: string
-    photo: string | null
-    name: string
-    email: string
-    password: string
-    organizationId: string | null
-  }> {
+  async create(data: Prisma.UserUncheckedCreateInput): Promise<User> {
     const user = {
       id: data.id as string,
       name: data.name as string,
@@ -105,6 +70,7 @@ export class InMemoryUsersRepository implements UsersRepository {
       password: data.password as string,
       organizationId: data.organizationId as string | null,
       photo: data.photo as string | null,
+      role: data.role || 'MEMBER',
     }
 
     this.users.push(user)

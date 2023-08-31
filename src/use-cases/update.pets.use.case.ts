@@ -10,6 +10,7 @@ interface UpdatePetUseCaseProps {
   description?: string
   images?: string[]
   city?: string
+  adopted: boolean
 }
 
 export class UpdatePetUseCase {
@@ -24,6 +25,7 @@ export class UpdatePetUseCase {
     description,
     images,
     city,
+    adopted,
   }: UpdatePetUseCaseProps): Promise<Pet> {
     const pet = await this.petsRepository.update(id, {
       id,
@@ -34,6 +36,7 @@ export class UpdatePetUseCase {
       description,
       images,
       city,
+      adopted,
     })
 
     return pet
