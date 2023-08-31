@@ -10,6 +10,8 @@ import { getUsersController } from '../user/get.users.controller'
 import { updatePetController } from '../pet/update.pets.controller'
 import { deleteOrganizationController } from './delete.organization.controller'
 import { getOrganizationController } from './get.organization.controller'
+import { authenticateOrganizationController } from './authenticate.organization.controller'
+import { refresh } from '../user/refresh'
 
 cloudinary.v2.config({
   cloud_name: env.CLOUDINARY_CLOUD_NAME,
@@ -29,6 +31,10 @@ const upload = multer({
 })
 
 export async function organizationRoutes(app: FastifyInstance) {
+  app.post('/sessions/organizations', authenticateOrganizationController)
+
+  app.patch('/refresh/token/organization', refresh)
+
   app.post(
     '/organizations',
     {

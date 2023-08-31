@@ -1,9 +1,15 @@
-import { Prisma, Organization } from '@prisma/client'
+import { Prisma, Organization, Role } from '@prisma/client'
 import { OrganizationsRepository } from '../organizations.repository'
 
 export class InMemoryOrganizationsRepository
   implements OrganizationsRepository
 {
+  async findByEmail(email: string): Promise<Organization | null> {
+    const org = this.organizations.find((org) => org.email === email)
+
+    return org || null
+  }
+
   private organizations: Organization[] = []
 
   async findAll(): Promise<Organization[]> {
@@ -18,13 +24,18 @@ export class InMemoryOrganizationsRepository
     return org || null
   }
 
-  async create(data: Prisma.OrganizationCreateInput): Promise<Organization> {
+  async create(
+    data: Prisma.OrganizationUncheckedCreateInput,
+  ): Promise<Organization> {
     const organization: Organization = {
       id: data.id as string,
       photo: data.photo || null,
       name: data.name,
-      adress: data.adress,
+      address: data.address,
       whatsapp: data.whatsapp,
+      password: data.password,
+      email: data.email,
+      role: data.role || 'ADMIN',
     }
 
     this.organizations.push(organization)
@@ -39,15 +50,18 @@ export class InMemoryOrganizationsRepository
 
   async update(
     id: string,
-    data: Prisma.OrganizationUpdateInput,
+    data: Prisma.OrganizationUncheckedUpdateInput,
   ): Promise<Organization> {
     const updatedOrganization: Organization = {
       ...data,
       id,
       name: data.name as string,
-      adress: data.adress as string,
+      address: data.address as string,
       whatsapp: data.whatsapp as string,
       photo: data.photo as string | null,
+      password: data.password as string,
+      email: data.email as string,
+      role: data.role as Role,
     }
 
     this.organizations = this.organizations.map((org) =>

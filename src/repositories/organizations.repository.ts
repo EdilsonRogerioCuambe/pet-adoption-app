@@ -10,4 +10,5 @@ export interface OrganizationsRepository {
   delete(id: string): Promise<Organization | null>
   findById(id: string): Promise<Organization | null>
   findAll(): Promise<Organization[]>
+  findByEmail(email: string): Promise<Organization | null>
 }

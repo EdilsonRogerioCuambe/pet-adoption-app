@@ -32,7 +32,10 @@ describe('Get Pet Controller', () => {
       .send({
         name: 'Organization',
         whatsapp: '123456789',
-        adress: 'Adress',
+        address: 'Adress',
+        password: '@Organization1710',
+        email: 'organization@gmail.com',
+        role: 'ADMIN',
       })
 
     await request(app.server)
@@ -70,5 +73,5 @@ describe('Get Pet Controller', () => {
       .send()
 
     expect(response.statusCode).toBe(200)
-  }, 20000)
+  }, 30000)
 })

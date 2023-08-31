@@ -1,12 +1,16 @@
 import { OrganizationsRepository } from '@/repositories/organizations.repository'
 import { OrganizationAlreadyExistsError } from './err/organization.already.exists'
+import { hash } from 'bcryptjs'
 
 interface RegisterOrganizationUseCaseProps {
   id?: string
   name: string
-  adress: string
+  address: string
   whatsapp: string
   photo?: string
+  password: string
+  email: string
+  role: 'ADMIN' | 'MEMBER'
 }
 
 export class RegisterOrganizationUseCase {
@@ -15,10 +19,15 @@ export class RegisterOrganizationUseCase {
   async execute({
     id,
     name,
-    adress,
+    address,
     whatsapp,
     photo,
+    password,
+    email,
+    role,
   }: RegisterOrganizationUseCaseProps) {
+    const hashedPassword = await hash(password, 10)
+
     const organizationAlreadyExists =
       await this.organizationsRepository.findByName(name)
 
@@ -29,9 +38,12 @@ export class RegisterOrganizationUseCase {
     const organization = await this.organizationsRepository.create({
       id,
       name,
-      adress,
+      address,
       whatsapp,
       photo,
+      password: hashedPassword,
+      email,
+      role,
     })
 
     return organization

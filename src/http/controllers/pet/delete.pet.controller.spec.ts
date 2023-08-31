@@ -32,7 +32,10 @@ describe('Delete Pet Controller', () => {
       .send({
         name: 'Organization',
         whatsapp: '123456789',
-        adress: 'Adress',
+        address: 'Adress',
+        email: 'organization@gmail.com',
+        password: '@Organization1710',
+        role: 'ADMIN',
       })
 
     await request(app.server)
@@ -75,5 +78,5 @@ describe('Delete Pet Controller', () => {
       .send()
 
     expect(response.statusCode).toBe(204)
-  }, 20000)
+  }, 30000)
 })

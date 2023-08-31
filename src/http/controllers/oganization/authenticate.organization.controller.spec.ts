@@ -1,8 +1,8 @@
+import { it, expect, beforeAll, afterAll, describe } from 'vitest'
 import { app } from '@/app'
-import { it, describe, afterAll, beforeAll, expect } from 'vitest'
 import request from 'supertest'
 
-describe('Get Organizations Controller', () => {
+describe('Authenticate Organization Controller', () => {
   beforeAll(async () => {
     await app.ready()
   })
@@ -11,7 +11,7 @@ describe('Get Organizations Controller', () => {
     await app.close()
   })
 
-  it('should get all organizations', async () => {
+  it('should return 200 when authenticate with valid credentials', async () => {
     await request(app.server).post('/users').send({
       name: 'User',
       email: 'user@gmail.com',
@@ -38,23 +38,24 @@ describe('Get Organizations Controller', () => {
         role: 'ADMIN',
       })
 
-    await request(app.server)
-      .post('/organizations')
-      .set('Authorization', `Bearer ${token}`)
+    const response = await request(app.server)
+      .post('/sessions/organizations')
       .send({
-        name: 'Organization 2',
-        whatsapp: '123456789',
-        address: 'Adress',
+        email: 'organization@gmail.com',
         password: '@Organization1710',
-        email: 'organization2@gmail.com',
-        role: 'ADMIN',
       })
 
-    const response = await request(app.server)
-      .get('/organizations')
-      .set('Authorization', `Bearer ${token}`)
-      .send()
-
     expect(response.statusCode).toBe(200)
+  })
+
+  it('should return 400 when authenticate with invalid credentials', async () => {
+    const response = await request(app.server)
+      .post('/sessions/organizations')
+      .send({
+        email: 'organization76@gmail.com',
+        password: '@Organization091710',
+      })
+
+    expect(response.statusCode).toBe(400)
   })
 })

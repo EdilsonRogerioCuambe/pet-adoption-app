@@ -18,11 +18,12 @@ export async function updatePetController(
     size: z.string().optional(),
     description: z.string().optional(),
     city: z.string().optional(),
+    adopted: z.boolean().default(false),
   })
 
   const images: string[] = []
 
-  const { id, name, age, breed, size, description, city } =
+  const { id, name, age, breed, size, description, city, adopted } =
     updatePetSchema.parse(request.body)
 
   if (request.files && typeof request.files === 'object') {
@@ -43,6 +44,7 @@ export async function updatePetController(
       city,
       description,
       images,
+      adopted,
     })
     return reply.status(204).send()
   } catch (error) {

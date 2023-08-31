@@ -26,8 +26,9 @@ model Pet {
   images         String[]
   organization   Organization @relation(fields: [organizationId], references: [id])
   organizationId String
-  user           User        @relation(fields: [userId], references: [id])
+  user           User         @relation(fields: [userId], references: [id])
   userId         String
+  adopted        Boolean      @default(false)
 
   @@map("pets")
 }
@@ -36,7 +37,10 @@ model Organization {
   id       String  @id @default(uuid())
   photo    String?
   name     String
-  adress   String
+  address  String
+  email    String
+  password String
+  role     Role    @default(ADMIN)
   whatsapp String
   pets     Pet[]
   users    User[]

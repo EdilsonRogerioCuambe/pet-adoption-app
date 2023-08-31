@@ -11,6 +11,7 @@ interface RegisterPetUseCaseProps {
   organizationId: string
   userId: string
   city?: string
+  adopted?: boolean
 }
 
 export class RegisterPetUseCase {
@@ -27,6 +28,7 @@ export class RegisterPetUseCase {
     organizationId,
     userId,
     city,
+    adopted,
   }: RegisterPetUseCaseProps) {
     const pet = await this.petsRepository.create({
       id,
@@ -39,6 +41,7 @@ export class RegisterPetUseCase {
       userId,
       organizationId,
       city,
+      adopted,
     })
 
     return pet

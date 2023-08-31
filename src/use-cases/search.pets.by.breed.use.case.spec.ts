@@ -24,6 +24,7 @@ describe('Search Pets By Breed Use Case', () => {
         organizationId: 'any_organization_id',
         userId: 'any_user_id',
         city: 'any_city',
+        adopted: false,
       })
     }
 

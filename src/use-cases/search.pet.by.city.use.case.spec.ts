@@ -23,6 +23,7 @@ describe('Search Pet By City Use Case', () => {
       organizationId: '4fe2e48a-7e19-4f61-95ee-d9bd468dc00e',
       userId: '4fe2e48a-7e19-4f61-95ee-d9bd468dc00e',
       city: 'São Paulo',
+      adopted: false,
     })
 
     await petsRepository.create({
@@ -36,6 +37,7 @@ describe('Search Pet By City Use Case', () => {
       organizationId: '4fe2e48a-7e19-4f61-95ee-d9bd468dc00e',
       userId: '4fe2e48a-7e19-4f61-95ee-d9bd468dc00e',
       city: 'Rio de Janeiro',
+      adopted: false,
     })
 
     await petsRepository.create({
@@ -49,6 +51,7 @@ describe('Search Pet By City Use Case', () => {
       organizationId: '4fe2e48a-7e19-4f61-95ee-d9bd468dc00e',
       userId: '4fe2e48a-7e19-4f61-95ee-d9bd468dc00e',
       city: 'São Paulo',
+      adopted: false,
     })
 
     const { pets } = await sut.execute({

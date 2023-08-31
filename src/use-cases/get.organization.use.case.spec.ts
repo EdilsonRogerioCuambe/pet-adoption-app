@@ -14,8 +14,10 @@ describe('Get Organization Use Case', () => {
   it('should return an organization', async () => {
     const organization = await organizationsRepository.create({
       name: 'any_name',
-      adress: 'any_adress',
+      address: 'any_adress',
       whatsapp: 'any_whatsapp',
+      email: 'any_email',
+      password: 'any_password',
     })
 
     const { organization: organizationResponse } = await sut.execute(

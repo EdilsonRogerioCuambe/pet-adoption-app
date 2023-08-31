@@ -2,58 +2,19 @@ import { Prisma, Pet } from '@prisma/client'
 import { PetsRepository } from '../pets.repository'
 
 export class InMemoryPetsRepository implements PetsRepository {
-  async searchPetsBySize(size: string): Promise<
-    {
-      id: string
-      name: string
-      age: string
-      breed: string
-      size: string
-      description: string
-      city: string | null
-      images: string[]
-      organizationId: string
-      userId: string
-    }[]
-  > {
+  async searchPetsBySize(size: string): Promise<Pet[]> {
     const pets = this.pets.filter((pet) => pet.size === size)
 
     return Promise.resolve(pets)
   }
 
-  async searchPetsByBreed(breed: string): Promise<
-    {
-      id: string
-      name: string
-      age: string
-      breed: string
-      size: string
-      description: string
-      city: string | null
-      images: string[]
-      organizationId: string
-      userId: string
-    }[]
-  > {
+  async searchPetsByBreed(breed: string): Promise<Pet[]> {
     const pets = this.pets.filter((pet) => pet.breed === breed)
 
     return Promise.resolve(pets)
   }
 
-  async searchPetsByAge(age: string): Promise<
-    {
-      id: string
-      name: string
-      age: string
-      breed: string
-      size: string
-      description: string
-      city: string | null
-      images: string[]
-      organizationId: string
-      userId: string
-    }[]
-  > {
+  async searchPetsByAge(age: string): Promise<Pet[]> {
     const pets = this.pets.filter((pet) => pet.age === age)
 
     return Promise.resolve(pets)
@@ -67,7 +28,7 @@ export class InMemoryPetsRepository implements PetsRepository {
 
   async create(data: Prisma.PetUncheckedCreateInput): Promise<Pet> {
     const pet: Pet = {
-      id: data.id as string,
+      id: 'any_id',
       name: data.name as string,
       age: data.age as string,
       breed: data.breed as string,
@@ -77,6 +38,7 @@ export class InMemoryPetsRepository implements PetsRepository {
       organizationId: data.organizationId as string,
       userId: data.userId as string,
       city: data.city as string,
+      adopted: data.adopted as boolean,
     }
 
     this.pets.push(pet)
@@ -116,6 +78,7 @@ export class InMemoryPetsRepository implements PetsRepository {
       organizationId: data.organizationId as string,
       userId: data.userId as string,
       city: data.city as string,
+      adopted: data.adopted as boolean,
     }
 
     this.pets = this.pets.map((pet) => (pet.id === id ? updatedPet : pet))

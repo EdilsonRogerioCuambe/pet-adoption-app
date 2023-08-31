@@ -1,8 +1,8 @@
+import { it, describe, expect, beforeAll, afterAll } from 'vitest'
 import { app } from '@/app'
-import { it, describe, afterAll, beforeAll, expect } from 'vitest'
 import request from 'supertest'
 
-describe('Get Organizations Controller', () => {
+describe('Organization Controller', () => {
   beforeAll(async () => {
     await app.ready()
   })
@@ -11,25 +11,27 @@ describe('Get Organizations Controller', () => {
     await app.close()
   })
 
-  it('should get all organizations', async () => {
+  it('should return 200 when organization is found', async () => {
     await request(app.server).post('/users').send({
-      name: 'User',
-      email: 'user@gmail.com',
-      password: '@User1710',
+      id: 'user_id_1',
+      name: 'John Doe',
+      email: 'johndoe@gmail.com',
+      password: '@JohnDoe123',
       role: 'ADMIN',
     })
 
     const authUser = await request(app.server).post('/sessions').send({
-      email: 'user@gmail.com',
-      password: '@User1710',
+      email: 'johndoe@gmail.com',
+      password: '@JohnDoe123',
     })
 
-    const token = authUser.body.token
+    const { token } = authUser.body
 
-    await request(app.server)
+    const org = await request(app.server)
       .post('/organizations')
       .set('Authorization', `Bearer ${token}`)
       .send({
+        id: 'organization_id_1',
         name: 'Organization',
         whatsapp: '123456789',
         address: 'Adress',
@@ -38,20 +40,8 @@ describe('Get Organizations Controller', () => {
         role: 'ADMIN',
       })
 
-    await request(app.server)
-      .post('/organizations')
-      .set('Authorization', `Bearer ${token}`)
-      .send({
-        name: 'Organization 2',
-        whatsapp: '123456789',
-        address: 'Adress',
-        password: '@Organization1710',
-        email: 'organization2@gmail.com',
-        role: 'ADMIN',
-      })
-
     const response = await request(app.server)
-      .get('/organizations')
+      .get(`/organizations/${org.body.id}`)
       .set('Authorization', `Bearer ${token}`)
       .send()
 
